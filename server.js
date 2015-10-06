@@ -1,9 +1,8 @@
-import fs from 'fs'
 import Promise from 'bluebird'
-Promise.promisifyAll(fs)
 global.Promise = Promise
 import koa from 'koa'
 import route from 'koa-route'
+import send from 'koa-send'
 
 const app = koa()
 
@@ -16,7 +15,7 @@ app.use(function * (next) {
 
 // Serve up index template
 app.use(route.get('/', function * () {
-  this.body = fs.createReadStream('index.html', 'utf8')
+  yield send(this, __dirname + '/index.html')
 }))
 
 app.use(function * (next) {
