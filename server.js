@@ -1,3 +1,6 @@
+import dotenv from 'dotenv'
+dotenv.load()
+
 import Promise from 'bluebird'
 global.Promise = Promise
 import koa from 'koa'

@@ -1,6 +1,8 @@
-import pg from 'pg'
+import dotenv from 'dotenv'
+dotenv.load()
 
-const connString = "postgres://patrickmoody@localhost/patrickmoody"
+import pg from 'pg'
+const connString = process.env.DATABASE_URL
 
 pg.connect(connString, (err, client, done) => {
   if (err) throw err
