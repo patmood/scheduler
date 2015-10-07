@@ -6,6 +6,7 @@ query.connectionParameters = process.env.DATABASE_URL
 
 export const User = {
   getAll() { return query('SELECT * FROM users') },
+  get(id)  { return query('SELECT * FROM users WHERE id=$1', [id]) },
   getByName(name)  { return query('SELECT * FROM users WHERE name=$1', [name]) },
   create(userObj) {
     return query(
