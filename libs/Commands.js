@@ -17,6 +17,3 @@ const seed = () => {
       console.log(data);
     })
 }
-
-
-seed()
