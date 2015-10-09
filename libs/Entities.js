@@ -21,7 +21,7 @@ export const User = {
       [name]
     )
   },
-  deleteAll() { return query('TRUNCATE users')}
+  deleteAll() { return query('TRUNCATE users CASCADE')}
 }
 
 export const Day = {
@@ -33,5 +33,3 @@ export const Day = {
     )
   },
 }
-
-Day.create(new Date())
