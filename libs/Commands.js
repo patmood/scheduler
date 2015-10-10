@@ -36,4 +36,6 @@ export const createMonth = () => {
     }, handleErr)
 }
 
-createMonth()
+// export const assignDay = (userId, dayId) => {
+//
+// }

@@ -18,7 +18,7 @@ Scheduling Web app using the Koa framework.
     - days unavailable
 
   - Day (identified by timestamp)
-    - support hero (user)
+    - assigned waterer (user)
     - isHoliday
 
 2. Commands
@@ -27,11 +27,11 @@ Scheduling Web app using the Koa framework.
   - set available day (user, day)
   - create user (user)
   - remove user (user)
-  - set support hero (user, day)
-  - swap support hero (user1, user2, day1, day2)
+  - set assigned waterer (user, day)
+  - swap assigned waterer (user1, user2, day1, day2)
 
 3. Queries
-  - get todays support hero
+  - get todays assigned waterer
   - get schedule for user (including unavailable days)
-  - get each day's support hero (iteration of today support)
+  - get each day's assigned waterer (iteration of today support)
   - get full schedule of users available on a day
