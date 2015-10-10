@@ -1,10 +1,10 @@
 import startingUsers from '../fixtures/users'
-import { User } from './Entities'
+import { User, Day } from './Entities'
 import Promise from 'bluebird'
 
 const handleErr = (err) => console.log(err)
 
-const seed = () => {
+export const seed = () => {
   return User.deleteAll()
     .then(() => {
       const uniqUsers = startingUsers.users.reduce((memo, userName) => {
@@ -16,6 +16,24 @@ const seed = () => {
       return Promise.all(promises)
     }, handleErr)
     .then((data) => {
-      console.log(data);
+      console.log(data)
     })
 }
+
+export const createMonth = () => {
+  return Day.deleteAll()
+    .then(() => {
+      let promises = []
+      for (let i = 0; i < 30; i++) {
+        let tempDate = new Date()
+        tempDate.setDate(tempDate.getDate() + i)
+        promises.push(Day.create(tempDate, null))
+      }
+      return Promise.all(promises)
+    }, handleErr)
+    .then((data) => {
+      console.log(data)
+    }, handleErr)
+}
+
+createMonth()

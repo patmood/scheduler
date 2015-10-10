@@ -25,11 +25,15 @@ export const User = {
 }
 
 export const Day = {
-  create(date) {
+  create(date, user_id) {
     console.log('creating day:', date);
     return query(
       'INSERT INTO days (date, user_id) VALUES ($1, $2)',
       [date, null]
     )
   },
+  deleteAll() {
+    console.log('deleting all')
+    return query('TRUNCATE days CASCADE')
+  }
 }
