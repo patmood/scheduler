@@ -1,13 +1,18 @@
 import dotenv from 'dotenv'
 dotenv.load()
 
+require('babel/register')
+
 import Promise from 'bluebird'
 global.Promise = Promise
 import koa from 'koa'
 import route from 'koa-route'
 import send from 'koa-send'
+import React from 'react'
+import ReactDOM from 'react-dom/server'
 
 import { User } from './libs/Entities'
+import AppContainer from './src/components/AppContainer'
 
 const app = koa()
 
@@ -20,7 +25,11 @@ app.use(function * (next) {
 
 // Serve up index template
 app.use(route.get('/', function * () {
-  yield send(this, __dirname + '/index.html')
+  const users = yield User.getAll()
+  const data = { users: users[0] }
+  const html = ReactDOM.renderToString(<AppContainer {...data} />)
+  this.body = '<!doctype html>\n' + html
+  // yield send(this, __dirname + '/index.html')
 }))
 
 // API
