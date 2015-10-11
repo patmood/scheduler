@@ -11,7 +11,7 @@ import send from 'koa-send'
 import React from 'react'
 import ReactDOM from 'react-dom/server'
 
-import { User } from './libs/Entities'
+import { User, Day } from './libs/Entities'
 import AppContainer from './src/components/AppContainer'
 
 const app = koa()
@@ -25,8 +25,11 @@ app.use(function * (next) {
 
 // Serve up index template
 app.use(route.get('/', function * () {
-  const users = yield User.getAll()
-  const data = { users: users[0] }
+  const rawData = yield Promise.settle([ User.getAll(), Day.getAll() ])
+  const data = {
+    users: rawData[0].value()[0],
+    days: rawData[1].value()[0]
+  }
   const html = ReactDOM.renderToString(<AppContainer {...data} />)
   this.body = '<!doctype html>\n' + html
   // yield send(this, __dirname + '/index.html')
