@@ -25,6 +25,9 @@ export const User = {
 }
 
 export const Day = {
+  getAll () { return query('SELECT * FROM days') },
+  get (id) { return query('SELECT * FROM days WHERE id=$1', [id]) },
+  getByDate (date) { return query('SELECT * FROM days WHERE date=$1', [id]) },
   create (date, user_id) {
     console.log('creating day:', date)
     return query(
@@ -37,6 +40,13 @@ export const Day = {
     return query(
       'UPDATE days SET user_id=$2 WHERE id=$1',
       [dayId, userId]
+    )
+  },
+  assignDateToUser (date, userId) {
+    console.log(`assigning day ${date} to user ${userId}`)
+    return query(
+      'UPDATE days SET user_id=$2 WHERE date=$1',
+      [date, userId]
     )
   },
   deleteAll () {

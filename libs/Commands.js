@@ -24,7 +24,7 @@ export const createMonth = () => {
   return Day.deleteAll()
     .then(() => {
       let promises = []
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 60; i++) {
         let tempDate = new Date()
         tempDate.setDate(tempDate.getDate() + i)
         promises.push(Day.create(tempDate, null))
@@ -36,6 +36,14 @@ export const createMonth = () => {
     }, handleErr)
 }
 
-// export const assignDay = (userId, dayId) => {
-//
-// }
+export const createStartingSchedule = () => {
+  startingUsers.users.forEach((name, i) => {
+    User.getByName(name)
+      .then((user) => {
+        const userId = user[0][0].id
+        let tempDate = new Date()
+        tempDate.setDate(tempDate.getDate() + i)
+        Day.assignDateToUser(tempDate, userId)
+      })
+  })
+}
