@@ -7,7 +7,9 @@ export class AppContainer extends Component {
     const bootstrapData = `window.__preload_${this.constructor.name} = ${JSON.stringify(this.props)}`
     const { users, days } = this.props
     const userList = users.map((user, i) => (<div key={i}>{user.name}-{user.id}</div>))
-    const dayList = days.map((day, i) => (<div key={i}>{moment(day.date).calendar()}-{day.id}-{day.user_id}</div>))
+    const dayList = days
+      .sort((a, b) => moment(a.date) - moment(b.date))
+      .map((day, i) => (<div key={i}>{moment(day.date).calendar()}-{day.id}-{day.user_id}</div>))
     return (
       <div>
         <h1>Hello from App component</h1>
