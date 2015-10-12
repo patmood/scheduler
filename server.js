@@ -37,6 +37,11 @@ app.use(route.get('/', function * () {
   // yield send(this, __dirname + '/index.html')
 }))
 
+// Serve static assets
+app.use( function *() {
+  yield send(this, this.path, { root: __dirname + '/public' })
+})
+
 // API
 app.use(route.get('/api/v1/users', function * () {
   const data = yield User.getAll()
@@ -53,9 +58,9 @@ app.use(route.get('/api/v1/users/:id', function * (id) {
 //   const data = yield User.create()
 // }))
 
-app.use(function * (next) {
-  const {request, response} = this
-  response.body = 'hello world'
-})
+// app.use(function * (next) {
+//   const { request, response } = this
+//   response.body = 'hello world'
+// })
 
-app.listen(7777, () => console.log('Listening on 7777') )
+app.listen(7777, () => console.log('Listening on 7777'))
