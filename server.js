@@ -12,8 +12,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/server'
 
 import { User, Day } from './libs/Entities'
-import AppContainer from './src/components/AppContainer'
-import Html from './src/components/Html'
+import AppContainer from './src/js/components/AppContainer'
+import Html from './src/js/components/Html'
 
 const app = koa()
 
@@ -39,7 +39,7 @@ app.use(route.get('/', function * () {
 
 // Serve static assets
 app.use( function *() {
-  yield send(this, this.path, { root: __dirname + '/public' })
+  yield send(this, this.path, { root: __dirname + '/dist' })
 })
 
 // API
