@@ -4,6 +4,8 @@ import moment from 'moment'
 export class App extends Component {
 
   render () {
+    console.log(this.defaultProps)
+    const bootstrapData = `window.__preload_${this.constructor.name} = ${JSON.stringify(this.props)}`
     const { users, days } = this.props
     const userList = users.map((user, i) => (<div key={i}>{user.name}-{user.id}</div>))
     const dayList = days.map((day, i) => (<div key={i}>{moment(day.date).calendar()}-{day.id}-{day.user_id}</div>))
@@ -14,6 +16,7 @@ export class App extends Component {
         <div>{userList}</div>
         <h2>days:</h2>
         <div>{dayList}</div>
+        <script dangerouslySetInnerHTML={{__html: bootstrapData}} ></script>
       </div>
     )
   }
