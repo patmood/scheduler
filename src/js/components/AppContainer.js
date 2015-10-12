@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react'
-import moment from 'moment'
+import Day from './Day'
 
 export class AppContainer extends Component {
 
@@ -8,8 +8,8 @@ export class AppContainer extends Component {
     const { users, days } = this.props
     const userList = users.map((user, i) => (<div key={i}>{user.name}-{user.id}</div>))
     const dayList = days
-      .sort((a, b) => moment(a.date) - moment(b.date))
-      .map((day, i) => (<div key={i}>{moment(day.date).calendar()}-{day.id}-{day.user_id}</div>))
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .map((day, i) => (<Day key={i} day={day} user={this.getUser(day.user_id, users)} />))
     return (
       <div>
         <h1>Hello from App component</h1>
@@ -20,6 +20,10 @@ export class AppContainer extends Component {
         <script dangerouslySetInnerHTML={{__html: bootstrapData}} ></script>
       </div>
     )
+  }
+
+  getUser (id, userList) {
+    return userList.find((user) => user.id === id)
   }
 }
 

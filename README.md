@@ -39,3 +39,4 @@ Scheduling Web app using the Koa framework.
 # Issues
 
 - Cant require .jsx files with brwoserify
+- Best place to bootstrap server rendered data? Once globally or scoped to individual component
