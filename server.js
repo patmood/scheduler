@@ -13,6 +13,7 @@ import ReactDOM from 'react-dom/server'
 
 import { User, Day } from './libs/Entities'
 import AppContainer from './src/components/AppContainer'
+import Html from './src/components/Html'
 
 const app = koa()
 
@@ -30,7 +31,8 @@ app.use(route.get('/', function * () {
     users: rawData[0].value()[0],
     days: rawData[1].value()[0]
   }
-  const html = ReactDOM.renderToString(<AppContainer {...data} />)
+  const body = ReactDOM.renderToString(<AppContainer {...data} />)
+  const html = ReactDOM.renderToStaticMarkup(<Html body={body} />)
   this.body = '<!doctype html>\n' + html
   // yield send(this, __dirname + '/index.html')
 }))
