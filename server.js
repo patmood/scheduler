@@ -38,7 +38,7 @@ app.use(route.get('/', function * () {
 }))
 
 // Serve static assets
-app.use( function *() {
+app.use(function *() {
   yield send(this, this.path, { root: __dirname + '/dist' })
 })
 
@@ -63,4 +63,4 @@ app.use(route.get('/api/v1/users/:id', function * (id) {
 //   response.body = 'hello world'
 // })
 
-app.listen(7777, () => console.log('Listening on 7777'))
+app.listen(7777, () => console.info('🌎 Listening on 7777'))

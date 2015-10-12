@@ -4,7 +4,7 @@ import AppContainer from './components/AppContainer'
 
 const run = () => {
   ReactDOM.render(
-    React.createElement(AppContainer, window.__preload_AppContainer),
+    <AppContainer {...window.__preload_AppContainer} />,
     document.getElementById('app')
   )
 }
