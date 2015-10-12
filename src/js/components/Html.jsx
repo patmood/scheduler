@@ -9,7 +9,6 @@ export class Html extends Component {
           <title>Scheduler</title>
         </head>
         <body>
-          <h1>Hello from JSX</h1>
           <div id='app' dangerouslySetInnerHTML={{__html: this.props.body}} />
           <script src='/bundle.js'></script>
         </body>
