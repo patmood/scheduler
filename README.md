@@ -35,3 +35,7 @@ Scheduling Web app using the Koa framework.
   - get schedule for user (including unavailable days)
   - get each day's assigned waterer (iteration of today support)
   - get full schedule of users available on a day
+
+# Issues
+
+- Cant require .jsx files with brwoserify

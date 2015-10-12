@@ -1,10 +1,9 @@
 import React, { PropTypes, Component } from 'react'
 import moment from 'moment'
 
-export class App extends Component {
+export class AppContainer extends Component {
 
   render () {
-    console.log(this.defaultProps)
     const bootstrapData = `window.__preload_${this.constructor.name} = ${JSON.stringify(this.props)}`
     const { users, days } = this.props
     const userList = users.map((user, i) => (<div key={i}>{user.name}-{user.id}</div>))
@@ -22,9 +21,9 @@ export class App extends Component {
   }
 }
 
-App.propTypes = {
+AppContainer.propTypes = {
   users: PropTypes.array,
   days: PropTypes.array
 }
 
-export default App
+export default AppContainer
