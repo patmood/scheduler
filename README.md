@@ -40,3 +40,11 @@ Scheduling Web app using the Koa framework.
 
 - Cant require .jsx files with brwoserify
 - Best place to bootstrap server rendered data? Once globally or scoped to individual component
+
+# TODO
+
+- Simulation test + production
+- Generate journal entrines on client
+- Store is list of actions
+- Actions create state
+- react tree receieves state
