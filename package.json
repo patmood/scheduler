@@ -27,6 +27,8 @@
     "pg-query": "^0.11.0",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
+    "react-redux": "^3.1.0",
+    "redux": "^3.0.2",
     "sequential-guid": "^1.1.0",
     "watchify": "^3.4.0"
   }

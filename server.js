@@ -31,10 +31,11 @@ app.use(route.get('/', function * () {
     users: rawData[0].value()[0],
     days: rawData[1].value()[0]
   }
-  const body = ReactDOM.renderToString(<AppContainer {...data} />)
-  const html = ReactDOM.renderToStaticMarkup(<Html body={body} />)
+
+  // Render template but not inital react component
+  // const body = ReactDOM.renderToString(<AppContainer {...data} />)
+  const html = ReactDOM.renderToStaticMarkup(<Html {...data} />)
   this.body = '<!doctype html>\n' + html
-  // yield send(this, __dirname + '/index.html')
 }))
 
 // Serve static assets
