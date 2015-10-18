@@ -1,6 +1,8 @@
+import { entries } from '../fixtures/mock-journal-entries'
 import moment from 'moment'
 import Uid from 'sequential-guid'
 const uid = new Uid()
+
 uid.seed = '00000000-0000-4000-a000-000000000000'
 
 export const generateEntries = (entries) => entries.map(transformEntry)
