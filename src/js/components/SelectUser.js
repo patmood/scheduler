@@ -6,10 +6,13 @@ export class SelectUser extends Component {
     const { users } = this.props
     const userOptions = users.map((user, i) => <option key={i} value={user.id}>{user.name}</option>)
     return (
-      <select onChange={this.handleChange.bind(this)}>
-        <option value='ALL'>All users</option>
-        {userOptions}
-      </select>
+      <div>
+        <h2>Select User:</h2>
+        <select onChange={this.handleChange.bind(this)}>
+          <option value='ALL'>All users</option>
+          {userOptions}
+        </select>
+      </div>
     )
   }
 

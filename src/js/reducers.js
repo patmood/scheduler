@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
   console.log('state', state)
   switch (action.type) {
     case ADD_USER:
-      return Object.assign({}, state, { name: action.name, })
+      return Object.assign({}, state, { users: state.users.concat([ {name: action.name} ]) })
 
     case DELETE_USER:
       return [{
@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
       }, ...state]
 
     case SELECT_USER:
-      return Object.assign({}, state, { activeUser: action.id, })
+      return Object.assign({}, state, { activeUser: action.id })
 
     default:
       return state
