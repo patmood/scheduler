@@ -11,7 +11,10 @@ export default (state = initialState, action) => {
   console.log('state', state)
   switch (action.type) {
     case ADD_USER:
-      return Object.assign({}, state, { users: state.users.concat([ {name: action.name} ]) })
+      return Object.assign({}, state, { users: state.users.concat([{
+        name: action.name,
+        id: action.id,
+      }]) })
 
     case DELETE_USER:
       return [{
