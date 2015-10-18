@@ -1,17 +1,17 @@
 // To combine multiple reducers, use import { combineReducers } from 'redux';
 import { ADD_USER, DELETE_USER, SELECT_USER } from './actions'
 const initialState = {
-  text: 'do the redux',
+  users: [],
+  days: [],
+  activeUser: null,
 }
 // window.__preload_AppContainer
 
 export default (state = initialState, action) => {
+  console.log('state', state)
   switch (action.type) {
     case ADD_USER:
-      return [{
-        // text: action.text <<<< Someting like that
-        user: 'new user',
-      }, ...state]
+      return Object.assign({}, state, { name: action.name, })
 
     case DELETE_USER:
       return [{
@@ -19,10 +19,7 @@ export default (state = initialState, action) => {
       }, ...state]
 
     case SELECT_USER:
-      console.log('Selected user:', action.id)
-      return [{
-        activeUser: action.name,
-      }, ...state]
+      return Object.assign({}, state, { activeUser: action.id, })
 
     default:
       return state
