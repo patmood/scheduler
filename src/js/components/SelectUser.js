@@ -6,7 +6,7 @@ export class SelectUser extends Component {
     const { users } = this.props
     const userOptions = users.map((user, i) => <option key={i} value={user.id}>{user.name}</option>)
     return (
-      <select onChange={this.handleChange}>
+      <select onChange={this.handleChange.bind(this)}>
         <option value='ALL'>All users</option>
         {userOptions}
       </select>
@@ -14,12 +14,14 @@ export class SelectUser extends Component {
   }
 
   handleChange (e) {
-    console.log('Selected user:', e.target.value)
+    const id = e.target.value
+    this.props.selectUser(id)
   }
 }
 
 SelectUser.propTypes = {
-  users: PropTypes.array
+  users: PropTypes.array,
+  selectUser: PropTypes.func,
 }
 
 export default SelectUser

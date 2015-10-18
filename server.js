@@ -12,7 +12,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/server'
 
 import { User, Day } from './libs/Entities'
-import AppContainer from './src/js/components/AppContainer'
+import App from './src/js/components/App'
 import Html from './src/js/components/Html'
 
 const app = koa()
@@ -29,11 +29,11 @@ app.use(route.get('/', function * () {
   const rawData = yield Promise.settle([ User.getAll(), Day.getAll() ])
   const data = {
     users: rawData[0].value()[0],
-    days: rawData[1].value()[0]
+    days: rawData[1].value()[0],
   }
 
   // Render template but not inital react component
-  // const body = ReactDOM.renderToString(<AppContainer {...data} />)
+  // const body = ReactDOM.renderToString(<App {...data} />)
   const html = ReactDOM.renderToStaticMarkup(<Html {...data} />)
   this.body = '<!doctype html>\n' + html
 }))

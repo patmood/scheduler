@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import AppContainer from './components/AppContainer'
+import App from './components/App'
 import reducers from './reducers'
 
 let store = createStore(reducers, __preload_Html)
@@ -13,7 +13,7 @@ const rootElement = document.getElementById('app')
 const run = () => {
   ReactDOM.render((
     <Provider store={store}>
-      <AppContainer />
+      <App />
     </Provider>)
   , rootElement
   )
