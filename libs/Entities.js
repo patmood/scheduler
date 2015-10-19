@@ -21,7 +21,7 @@ export const User = {
       [name]
     )
   },
-  deleteAll () { return query('TRUNCATE users CASCADE') }
+  deleteAll () { return query('TRUNCATE users CASCADE') },
 }
 
 export const Day = {
@@ -52,7 +52,7 @@ export const Day = {
   deleteAll () {
     console.log('deleting all')
     return query('TRUNCATE days CASCADE')
-  }
+  },
 }
 
 // Day.assignToUser(5, 60).then((data) => console.log(data), (err) => console.log(err))

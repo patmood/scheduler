@@ -35,10 +35,11 @@ const uuidFor = (integer) => {
 }
 
 if (!module.parent) {
-  console.log(transformValue({
-    type: 'timestamp',
-    value: 0,
-  })) // Mon Oct 12 2015 00:00:00 GMT-0700 (PDT)
-
-  console.log(transformValue({ type: 'uuid', value: 1 }))  // 00000000-0000-4000-a000-000000000001
+  // console.log(transformValue({
+  //   type: 'timestamp',
+  //   value: 0,
+  // })) // Mon Oct 12 2015 00:00:00 GMT-0700 (PDT)
+  //
+  // console.log(transformValue({ type: 'uuid', value: 1 }))  // 00000000-0000-4000-a000-000000000001
+  console.log(generateEntries(entries))
 }
