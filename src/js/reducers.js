@@ -17,9 +17,10 @@ export default (state = initialState, action) => {
       }]) })
 
     case DELETE_USER:
-      return [{
-        user: 'delete user',
-      }, ...state]
+      return Object.assign({}, state, {
+        users: state.users.filter((u) => u.id !== action.id),
+        days: state.days.filter((u) => u.user_id !== action.id), 
+      })
 
     case SELECT_USER:
       return Object.assign({}, state, { activeUser: action.id })

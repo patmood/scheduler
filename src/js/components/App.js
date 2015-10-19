@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Day from './Day'
 import SelectUser from './SelectUser'
 import AddUser from './AddUser'
-import { addUser, selectUser } from '../actions'
+import { addUser, selectUser, deleteUser } from '../actions'
 
 export class App extends Component {
 
@@ -24,10 +24,17 @@ export class App extends Component {
         <div>Active User: {activeUser}</div>
         <SelectUser users={users} selectUser={onSelectUser} />
         <AddUser addUser={onAddUser} />
+        <button onClick={this.triggerDelete.bind(this)}>Delete This User</button>
         <h2>Schedule:</h2>
         <div>{dayList}</div>
       </div>
     )
+  }
+
+  triggerDelete () {
+    if (!this.props.activeUser) return
+    console.log(`deleting: ${this.props.activeUser}`)
+    this.props.onDeleteUser(this.props.activeUser)
   }
 
   getUser (id, userList) {
@@ -39,6 +46,9 @@ App.propTypes = {
   users: PropTypes.array,
   days: PropTypes.array,
   activeUser: PropTypes.number,
+  onSelectUser: PropTypes.func,
+  onAddUser: PropTypes.func,
+  onDeleteUser: PropTypes.func,
 }
 
 const mapStateToProps = (state) => {
@@ -53,6 +63,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onSelectUser: (id) => dispatch(selectUser(id)),
     onAddUser: (name) => dispatch(addUser(name)),
+    onDeleteUser: (id) => dispatch(deleteUser(id)),
   }
 }
 
