@@ -2,6 +2,10 @@
 
 Scheduling Web app using the Koa framework.
 
+run server: `nodemon -q -x 'clear & npm start'`
+build js: `./run watch`
+
+
 # Specs
 
 - Display person scheduled for today
@@ -48,3 +52,7 @@ Scheduling Web app using the Koa framework.
 - Store is list of actions
 - Actions create state
 - react tree receieves state
+
+# Userful
+
+Redux docs: http://rackt.github.io/redux/docs/basics/Reducers.html
