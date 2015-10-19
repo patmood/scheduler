@@ -2,10 +2,24 @@ import { entries } from '../fixtures/mock-journal-entries'
 import moment from 'moment'
 import Uid from 'sequential-guid'
 const uid = new Uid()
+import stream from 'stream'
 
 uid.seed = '00000000-0000-4000-a000-000000000000'
 
 export const generateEntries = (entries) => entries.map(transformEntry)
+
+export const generateEntriesReadableStream = (seedEntries = entries) => {
+  let index = 0
+  return new stream.Readable({
+    read: function() {
+      // if (index === seedEntries.length) return null
+      const chunk = seedEntries[index]
+      this.push(chunk ? transformEntry(chunk) : null)
+      index++
+    },
+    objectMode: true,
+  })
+}
 
 const transformEntry = (entry) => {
   // Replace timestamp placeholder with real timestamp
@@ -41,5 +55,5 @@ if (!module.parent) {
   // })) // Mon Oct 12 2015 00:00:00 GMT-0700 (PDT)
   //
   // console.log(transformValue({ type: 'uuid', value: 1 }))  // 00000000-0000-4000-a000-000000000001
-  console.log(generateEntries(entries))
+  console.log(JSON.stringify(generateEntries(entries), null, 2))
 }

@@ -33,7 +33,7 @@ export const entries = [
     name: 'ASSIGN_DAY',
     ts: {
       type: 'timestamp',
-      value: 2,
+      value: 3,
     },
     facts: [
       ['assert', /* Tuesday */ { type: 'day', value: 1 }, 'day/user', /* Denton */ { type: 'uuid', value: 1 }],
@@ -43,7 +43,7 @@ export const entries = [
     name: 'ASSIGN_HOLIDAY',
     ts: {
       type: 'timestamp',
-      value: 3,
+      value: 4,
     },
     facts: [
       ['assert', /* Wednesday */ { type: 'day', value: 2 }, 'day/holidayName', 'Colombus day'],
@@ -53,7 +53,7 @@ export const entries = [
     name: 'UNASSIGN_HOLIDAY',
     ts: {
       type: 'timestamp',
-      value: 4,
+      value: 5,
     },
     facts: [
       ['retract', /* Wednesday */ { type: 'day', value: 2 }, 'day/holidayName'],
@@ -63,7 +63,7 @@ export const entries = [
     name: 'ASSIGN_UNAVAILABILITY',
     ts: {
       type: 'timestamp',
-      value: 5,
+      value: 6,
     },
     facts: [
       ['assert', { type: 'uuid', value: 2 }, 'unavailability/user', /* Patrick */ { type: 'uuid', value: 0 }],
@@ -74,7 +74,7 @@ export const entries = [
     name: 'UNASSIGN_UNAVAILABILITY',
     ts: {
       type: 'timestamp',
-      value: 6,
+      value: 7,
     },
     facts: [
       ['retract', { type: 'uuid', value: 2 }],
@@ -84,7 +84,7 @@ export const entries = [
     name: 'SWAP_ASSIGNMENT',
     ts: {
       type: 'timestamp',
-      value: 7,
+      value: 8,
     },
     facts: [
       // Denton monday, patrick tuesday - Initiated by denton therefor denton unavailable tuesday

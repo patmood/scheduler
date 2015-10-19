@@ -28,6 +28,12 @@ function ify {
     "${@:2}"
 }
 
+function db-reset {
+  cat reset.sql | psql
+  cat schema.sql | psql scheduler
+  babel-node libs/db.js
+}
+
 function help {
   echo instructions
 }
