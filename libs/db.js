@@ -2,6 +2,7 @@ import { generateEntriesReadableStream } from './GenerateTestEntries'
 import pg from 'pg'
 const conString = 'postgres:///scheduler'
 import stream from 'stream'
+import QueryStream from 'pg-query-stream'
 
 // query( {name:'emp_name', text:'select name from emp where emp_id=$1', values:[123]} )
 
@@ -51,9 +52,32 @@ const seed = (callback) => {
   })
 }
 
-if (!module.parent) {
-  seed(() => {
-    console.log('seeded')
-    pg.end()
+export const journalEntryReader = (startTime = new Date(0) ) => {
+  const s = stream.PassThrough({ objectMode: true })
+  // const s = new stream.Transform({
+  //   transform: function (chunk, _enc, callback) {
+  //     this.push(chunk)
+  //     setTimeout(callback, 1000)
+  //   },
+  //   objectMode: true,
+  // })
+
+  const qs = new QueryStream('select * from journal_entries where ts > $1', [startTime])
+  pg.connect(conString, (err, client, done) => {
+    if (err) throw err
+    const stream = client.query(qs)
+    stream.on('end', done)
+    stream.pipe(s)
   })
+
+  return s
+}
+
+if (!module.parent) {
+  // seed(() => {
+  //   console.log('seeded')
+  //   pg.end()
+  // })
+
+  journalEntryReader().on('data', (data) => console.log(data))
 }
