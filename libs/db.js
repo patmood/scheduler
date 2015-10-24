@@ -53,6 +53,7 @@ const seed = (callback) => {
 }
 
 export const journalEntryReader = (startTime = new Date(0) ) => {
+  // Create a passthrough stream to export
   const s = stream.PassThrough({ objectMode: true })
   // const s = new stream.Transform({
   //   transform: function (chunk, _enc, callback) {

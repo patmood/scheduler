@@ -8,6 +8,7 @@ global.Promise = Promise
 import koa from 'koa'
 import route from 'koa-route'
 import send from 'koa-send'
+import stream from 'stream'
 import React from 'react'
 import ReactDOM from 'react-dom/server'
 import JSONStream from 'JSONStream'
@@ -18,6 +19,7 @@ import Html from './src/js/components/Html'
 
 import * as db from './libs/db'
 
+import View from './libs/View'
 const app = koa()
 
 // Log request times
@@ -29,23 +31,33 @@ app.use(function * (next) {
 
 // Serve up index template
 app.use(route.get('/', function * () {
-  const rawData = yield Promise.settle([ User.getAll(), Day.getAll() ])
-  const data = {
-    users: rawData[0].value()[0],
-    days: rawData[1].value()[0],
-  }
+  // const rawData = yield Promise.settle([ User.getAll(), Day.getAll() ])
+  // const data = {
+  //   users: rawData[0].value()[0],
+  //   days: rawData[1].value()[0],
+  // }
 
   // Render template but not inital react component
   // const body = ReactDOM.renderToString(<App {...data} />)
-  const html = ReactDOM.renderToStaticMarkup(<Html {...data} />)
-  this.body = '<!doctype html>\n' + html
+  // const html = ReactDOM.renderToStaticMarkup(<Html {...data} />) // first write event
+  // second write is script tag
+  // this.body = '<!doctype html>\n' + html
+
+  // STREAM ATTEMPT
+  // this.type = 'html'
+  // this.body = indexRenderStream()
+
+  // CO STREAM VIEW ATTEMPT
+  this.type = 'html'
+  this.body = new View(this)
+  // this.body = indexRenderStream()
 }))
 
 // API
 app.use(route.get('/journal', function * () {
-  const _this = this
+  this.type = 'json'
   this.body = db.journalEntryReader()
-    .pipe(JSONStream.stringify()) //.on('data', (data) => _this.response.write(data))
+    .pipe(JSONStream.stringify())
 }))
 
 app.use(route.get('/api/v1/users', function * () {
@@ -57,16 +69,6 @@ app.use(route.get('/api/v1/users/:id', function * (id) {
   const data = yield User.get(id)
   this.body = data[0]
 }))
-
-// TODO: switch to koa-router to handle POST requests
-// app.use(route.post('/api/v1/users', function * () {
-//   const data = yield User.create()
-// }))
-
-// app.use(function * (next) {
-//   const { request, response } = this
-//   response.body = 'hello world'
-// })
 
 // Serve static assets
 app.use(function *() {
