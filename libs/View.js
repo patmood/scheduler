@@ -22,20 +22,15 @@ View.prototype.render = function * () {
   // render the <body> on the next tick
   var body = yield function (done) {
     setImmediate(function () {
-      done(null, '<p>Hello World</p>')
+      done(null, '<div id="app"></div><script src="/bundle.js"></script>')
     })
   }
 
   this.push('<body>')
   this.push(body)
 
-  var someScript = yield function (done) {
-    setTimeout(function () {
-      done(null, '<script>(function(){console.log("hey")})()</script>')
-    }, 2000)
-  }
+  // Push data here
 
-  this.push(someScript)
   // close the document
   this.push('</body></html>')
   // end the stream

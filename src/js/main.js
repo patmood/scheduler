@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import App from './components/App'
 import reducers from './reducers'
 
-let store = createStore(reducers, __preload_Html)
+let store = createStore(reducers)
 const rootElement = document.getElementById('app')
 
 // console.log(store)

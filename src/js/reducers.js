@@ -5,7 +5,6 @@ const initialState = {
   days: [],
   activeUser: null,
 }
-// window.__preload_AppContainer
 
 export default (state = initialState, action) => {
   console.log('state', state)
@@ -19,7 +18,7 @@ export default (state = initialState, action) => {
     case DELETE_USER:
       return Object.assign({}, state, {
         users: state.users.filter((u) => u.id !== action.id),
-        days: state.days.filter((u) => u.user_id !== action.id), 
+        days: state.days.filter((u) => u.user_id !== action.id),
       })
 
     case SELECT_USER:
