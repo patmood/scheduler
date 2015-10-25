@@ -1,6 +1,9 @@
 var Readable = require('stream').Readable
 var inherits = require('util').inherits
 var co = require('co')
+import * as db from './db'
+import JSONStream from 'JSONStream'
+import streamToPromise from 'stream-to-promise'
 
 module.exports = View
 
@@ -30,6 +33,11 @@ View.prototype.render = function * () {
   this.push(body)
 
   // Push data here
+  const s = db.journalEntryReader()
+    .pipe(JSONStream.stringify())
+
+  const script = yield streamToPromise(s)
+  this.push(`<script>hydrateStore(${script})</script>`)
 
   // close the document
   this.push('</body></html>')

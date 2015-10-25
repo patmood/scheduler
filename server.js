@@ -43,14 +43,9 @@ app.use(route.get('/', function * () {
   // second write is script tag
   // this.body = '<!doctype html>\n' + html
 
-  // STREAM ATTEMPT
-  // this.type = 'html'
-  // this.body = indexRenderStream()
-
   // CO STREAM VIEW ATTEMPT
   this.type = 'html'
   this.body = new View(this)
-  // this.body = indexRenderStream()
 }))
 
 // API

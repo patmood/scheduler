@@ -33,6 +33,7 @@
     "react-redux": "^3.1.0",
     "redux": "^3.0.2",
     "sequential-guid": "^1.1.0",
+    "stream-to-promise": "^1.0.4",
     "watchify": "^3.4.0"
   }
 }

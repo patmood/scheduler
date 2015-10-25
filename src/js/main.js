@@ -24,3 +24,7 @@ if (window.addEventListener) {
 } else {
   window.attachEvent('onload', run)
 }
+
+window.hydrateStore = (journalEntries) => {
+  journalEntries.forEach((entry) => console.log(entry))
+}
