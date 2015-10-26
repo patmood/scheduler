@@ -12,7 +12,7 @@ export const UNASSIGN_UNAVAILABILITY = 'UNASSIGN_UNAVAILABILITY'
 export const SWAP_ASSIGNMENT = 'SWAP_ASSIGNMENT'
 
 export const addUser = (name) => {
-  return { type: CREATE_USER, name: name, id: uid.next() }
+  return { type: CREATE_USER, name, id: uid.next() }
 }
 
 export const deleteUser = (id) => {

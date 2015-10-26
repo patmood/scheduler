@@ -28,10 +28,10 @@ if (window.addEventListener) {
 
 window.hydrateStore = (journalEntries) => {
   journalEntries.forEach((entry) => {
+    entry.facts = JSON.parse(entry.facts)
+    console.log(entry)
     if (entry.name === 'CREATE_USER') {
-      const facts = JSON.parse(entry.facts)
-      console.log(facts[0][1])
-      store.dispatch({ type: entry.name, name: facts[0][3], id: facts[0][1] })
+      store.dispatch({ type: entry.name, name: entry.facts[0][3], id: entry.facts[0][1] })
     }
   })
 }
