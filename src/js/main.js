@@ -4,6 +4,7 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import App from './components/App'
 import reducers from './reducers'
+// import * as actions from './actions'
 
 let store = createStore(reducers)
 const rootElement = document.getElementById('app')
@@ -26,5 +27,11 @@ if (window.addEventListener) {
 }
 
 window.hydrateStore = (journalEntries) => {
-  journalEntries.forEach((entry) => console.log(entry))
+  journalEntries.forEach((entry) => {
+    if (entry.name === 'CREATE_USER') {
+      const facts = JSON.parse(entry.facts)
+      console.log(facts[0][1])
+      store.dispatch({ type: entry.name, name: facts[0][3], id: facts[0][1] })
+    }
+  })
 }

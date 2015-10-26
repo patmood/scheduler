@@ -17,7 +17,7 @@ export class SelectUser extends Component {
   }
 
   handleChange (e) {
-    const id = parseInt(e.target.value)
+    const id = e.target.value
     this.props.selectUser(id)
   }
 }

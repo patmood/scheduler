@@ -36,7 +36,7 @@ View.prototype.render = function * () {
   const s = db.journalEntryReader()
     .pipe(JSONStream.stringify())
 
-  const script = yield streamToPromise(s)
+  const script = yield streamToPromise(s)  // Can streams be yeilded another way?
   this.push(`<script>hydrateStore(${script})</script>`)
 
   // close the document

@@ -1,5 +1,5 @@
 // To combine multiple reducers, use import { combineReducers } from 'redux';
-import { ADD_USER, DELETE_USER, SELECT_USER } from './actions'
+import { CREATE_USER, DELETE_USER, SELECT_USER } from './actions'
 const initialState = {
   users: [],
   days: [],
@@ -7,9 +7,9 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  console.log('state', state)
+  // console.log('state', state)
   switch (action.type) {
-    case ADD_USER:
+    case CREATE_USER:
       return Object.assign({}, state, { users: state.users.concat([{
         name: action.name,
         id: action.id,
@@ -22,6 +22,7 @@ export default (state = initialState, action) => {
       })
 
     case SELECT_USER:
+      console.log('SELECT_USER', action.id)
       return Object.assign({}, state, { activeUser: action.id })
 
     default:

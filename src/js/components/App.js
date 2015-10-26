@@ -8,7 +8,7 @@ import { addUser, selectUser, deleteUser } from '../actions'
 export class App extends Component {
 
   render () {
-    console.log(this.props)
+    // console.log(this.props)
     const { users, days, activeUser, onSelectUser, onAddUser } = this.props
     const dayList = days
       .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -45,7 +45,7 @@ export class App extends Component {
 App.propTypes = {
   users: PropTypes.array,
   days: PropTypes.array,
-  activeUser: PropTypes.number,
+  activeUser: PropTypes.string,
   onSelectUser: PropTypes.func,
   onAddUser: PropTypes.func,
   onDeleteUser: PropTypes.func,
