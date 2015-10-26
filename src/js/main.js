@@ -30,8 +30,9 @@ window.hydrateStore = (journalEntries) => {
   journalEntries.forEach((entry) => {
     entry.facts = JSON.parse(entry.facts)
     console.log(entry)
-    if (entry.name === 'CREATE_USER') {
-      store.dispatch({ type: entry.name, name: entry.facts[0][3], id: entry.facts[0][1] })
+
+    if (entry.type === 'CREATE_USER') {
+      store.dispatch(entry)
     }
   })
 }
