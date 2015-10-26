@@ -13,7 +13,7 @@ export const SWAP_ASSIGNMENT = 'SWAP_ASSIGNMENT'
 
 export const addUser = (name) => {
   return { type: CREATE_USER, facts: [
-    ['assert', uid.next(), 'user/name', name]
+    ['assert', uid.next(), 'user/name', name],
   ]}
 }
 
