@@ -13,7 +13,7 @@ export class App extends Component {
     const { users, days, activeUser, selectUser, addUser, deleteUser } = this.props
     const dayList = days
       .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .map((day) => Object.assign({}, day, {user: this.getUser(day.user_id, users)}))
+      .map((day) => Object.assign({}, day, {user: users[day.user_id]}))
 
     return (
       <div>
@@ -34,14 +34,10 @@ export class App extends Component {
       </div>
     )
   }
-
-  getUser (id, userList) {
-    return userList.find((user) => user.id === id)
-  }
 }
 
 App.propTypes = {
-  users: PropTypes.array,
+  users: PropTypes.object,
   days: PropTypes.array,
   activeUser: PropTypes.string,
   onSelectUser: PropTypes.func,
@@ -49,11 +45,18 @@ App.propTypes = {
   onDeleteUser: PropTypes.func,
 }
 
-const mapStateToProps = (state) => state
+const mapStateToProps = (state) => state // do .toJS when using immutable.js
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    selectUser: (id) => dispatch(selectUser(id)),
+    selectUser: (id) => {
+      // Optimistic action dispatch
+      const journalEntry = selectUser(id)
+      dispatch(journalEntry, { optimistic: true }) // -> add extra attribute to say optimistic
+        // Need middleware ot handle optimistic option and undo it
+      // Server request with journal entry from action above
+      // Update UI to apply or reverse update depending on server response
+    },
     addUser: (name) => dispatch(addUser(name)),
     deleteUser: (id) => dispatch(deleteUser(id)),
   }

@@ -18,7 +18,9 @@ export const addUser = (name) => {
 }
 
 export const deleteUser = (id) => {
-  return { type: DELETE_USER, id: id }
+  return { type: DELETE_USER, facts: [
+    ['retract', id],
+  ] }
 }
 
 export const selectUser = (id) => {

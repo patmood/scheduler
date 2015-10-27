@@ -1,7 +1,7 @@
 // To combine multiple reducers, use import { combineReducers } from 'redux';
 import { CREATE_USER, DELETE_USER, SELECT_USER } from './actions'
 const initialState = {
-  users: [],
+  users: {},
   days: [],
   activeUser: null,
 }
@@ -10,14 +10,12 @@ export default (state = initialState, action) => {
   // console.log('state', state)
   switch (action.type) {
     case CREATE_USER:
-      const [ _type, id, path, name ] = action.facts[0]
-      return Object.assign({}, state, { users: state.users.concat([{ name, id }]) })
+      const [ _type, id, _attributeName, value ] = action.facts[0]
+      // TODO: use immutable to replace Object assign
+      const newUsers = Object.assign({}, state.users, { [id]: { name: value, id } })
+      return Object.assign({}, state, { users: newUsers })
 
-    case DELETE_USER:
-      return Object.assign({}, state, {
-        users: state.users.filter((u) => u.id !== action.id),
-        days: state.days.filter((u) => u.user_id !== action.id),
-      })
+    case DELETE_USER: deleteUser(state, action)
 
     case SELECT_USER:
       console.log('SELECT_USER', action.id)
@@ -26,4 +24,11 @@ export default (state = initialState, action) => {
     default:
       return state
   }
+}
+
+const deleteUser = (state, action) => {
+  const [ _type, id ] = action.facts[0]
+  const newUsers = Object.assign({}, state.users)
+  delete newUsers[id]
+  return Object.assign({}, state, { users: newUsers })
 }

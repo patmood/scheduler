@@ -4,7 +4,8 @@ export class SelectUser extends Component {
 
   render () {
     const { users } = this.props
-    const userOptions = users.map((user, i) => <option key={i} value={user.id}>{user.name}</option>)
+    // Comma operator separates a list of EXPRESSIONS and returns the value of the last one (Doesnt work for statements)
+    const userOptions = Object.keys(users).map((user) => (user = users[user], <option key={user.id} value={user.id}>{user.name}</option>))
     return (
       <div>
         <h2>Select User:</h2>
@@ -23,7 +24,7 @@ export class SelectUser extends Component {
 }
 
 SelectUser.propTypes = {
-  users: PropTypes.array,
+  users: PropTypes.object,
   selectUser: PropTypes.func,
 }
 
