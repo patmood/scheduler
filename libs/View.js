@@ -1,3 +1,4 @@
+// As per Koa streaming html example
 var Readable = require('stream').Readable
 var inherits = require('util').inherits
 var co = require('co')

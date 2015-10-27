@@ -12,6 +12,7 @@ import stream from 'stream'
 import React from 'react'
 import ReactDOM from 'react-dom/server'
 import JSONStream from 'JSONStream'
+import MultiStream from 'multistream'
 
 import { User, Day } from './libs/Entities'
 import App from './src/js/components/App'
@@ -44,8 +45,32 @@ app.use(route.get('/', function * () {
   // this.body = '<!doctype html>\n' + html
 
   // CO STREAM VIEW ATTEMPT
+  // this.type = 'html'
+  // this.body = new View(this)
+
+  // PURE STREAM ATTEMPT
   this.type = 'html'
-  this.body = new View(this)
+  // Array to stream
+  const ats = (array) =>
+  stream.Readable({read: function () {
+    this.push(array.shift() || null)
+  }})
+
+  const renderStream = MultiStream([
+    ats([
+      '<!DOCTYPE html><html><head><title>Hello World</title></head>',
+      '<body><div id="app"></div><script src="/bundle.js"></script>',
+      '<script>hydrateStore(',
+    ]),
+    db.journalEntryReader().pipe(JSONStream.stringify()),
+    ats([
+      ')</script>',
+      '</body></html>',
+    ]),
+  ])
+
+  this.body = renderStream
+
 }))
 
 // API
