@@ -10,7 +10,7 @@ export class SelectUser extends Component {
       <div>
         <h2>Select User:</h2>
         <select onChange={this.handleChange.bind(this)}>
-          <option value='ALL'>All users</option>
+          <option value=''>All users</option>
           {userOptions}
         </select>
       </div>
