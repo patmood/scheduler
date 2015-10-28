@@ -1,10 +1,11 @@
 // To combine multiple reducers, use import { combineReducers } from 'redux';
+import Immutable from 'immutable'
 import { CREATE_USER, DELETE_USER, SELECT_USER } from './actions'
-const initialState = {
+const initialState = Immutable.fromJS({
   users: {},
   days: [],
   activeUser: null,
-}
+})
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -19,20 +20,22 @@ export default (state = initialState, action) => {
 
 const createUser = (state, action) => {
   const [ _type, id, _attributeName, value ] = action.facts[0]
-  // TODO: use immutable to replace Object assign
-  const newUsers = Object.assign({}, state.users, { [id]: { name: value, id } })
-  return Object.assign({}, state, { users: newUsers })
+  return state.setIn(['users', id], Immutable.Map({ name: value, id }))
+  // Non immutable technique:
+  // const newUsers = Object.assign({}, state.users, { [id]: { name: value, id } })
+  // return Object.assign({}, state, { users: newUsers })
 }
 
 const deleteUser = (state, action) => {
   const [ _type, id ] = action.facts[0]
-  const newUsers = Object.assign({}, state.users)
-  delete newUsers[id]
-  return Object.assign({}, state, { users: newUsers })
+  return state.deleteIn(['users', id])
+  // Non immutable technique:
+  // const newUsers = Object.assign({}, state.users)
+  // delete newUsers[id]
+  // return Object.assign({}, state, { users: newUsers })
 }
 
 const selectUser = (state, action) => {
   const [ _type, id ] = action.facts[0]
-  console.log('SELECT_USER', id)
-  return Object.assign({}, state, { activeUser: id })
+  return state.set('activeUser', id)
 }

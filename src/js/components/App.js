@@ -45,7 +45,7 @@ App.propTypes = {
   onDeleteUser: PropTypes.func,
 }
 
-const mapStateToProps = (state) => state // do .toJS when using immutable.js
+const mapStateToProps = (state) => state.toJS() // Convert from immutable.js to vanilla js object
 
 const mapDispatchToProps = (dispatch) => {
   return {

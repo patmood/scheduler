@@ -4,7 +4,6 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import App from './components/App'
 import reducer from './reducer'
-// import * as actions from './actions'
 
 let store = createStore(reducer)
 const rootElement = document.getElementById('app')
