@@ -11,8 +11,7 @@ export class App extends Component {
   render () {
     // console.log(this.props)
     const { users, days, activeUser, selectUser, addUser, deleteUser } = this.props
-    console.log(days)
-    const dayList = days
+    const dayList = Object.keys(days).map((k) => days[k])
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .map((day) => Object.assign({}, day, {user: users[day.userId]}))
 
@@ -39,7 +38,7 @@ export class App extends Component {
 
 App.propTypes = {
   users: PropTypes.object,
-  days: PropTypes.array,
+  days: PropTypes.object,
   activeUser: PropTypes.string,
   onSelectUser: PropTypes.func,
   onAddUser: PropTypes.func,

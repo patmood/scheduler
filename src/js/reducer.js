@@ -3,7 +3,7 @@ import Immutable from 'immutable'
 import { CREATE_USER, DELETE_USER, SELECT_USER, ASSIGN_DAY } from './actions'
 const initialState = Immutable.fromJS({
   users: {},
-  days: [],
+  days: {},
   activeUser: null,
 })
 
@@ -43,7 +43,5 @@ const selectUser = (state, action) => {
 
 const assignDay = (state, action) => {
   const [ _type, id, _attributeName, value ] = action.facts[0]
-  const newDays = state.get('days').push(Immutable.Map({ date: id, userId: value }))
-  // TODO: sort days here instead of component
-  return state.set('days', newDays)
+  return state.setIn(['days', id], { date: id, userId: value })
 }
