@@ -7,7 +7,7 @@ export class Day extends Component {
     const { day, user, highlight } = this.props
     return (
       <div style={ highlight ? {backgroundColor: 'yellow'} : {}}>
-        { moment(day.date).format('L') }: { user.name }
+        { moment(new Date(day.date)).format('L') }: { user.name }
       </div>
     )
   }

@@ -30,7 +30,7 @@ window.hydrateStore = (journalEntries) => {
     entry.facts = JSON.parse(entry.facts)
     console.log(entry)
 
-    if (entry.type === 'CREATE_USER') {
+    if (entry.type === 'CREATE_USER' || entry.type === 'ASSIGN_DAY') {
       store.dispatch(entry)
     }
   })

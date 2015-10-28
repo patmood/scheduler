@@ -25,6 +25,12 @@ export const deleteUser = (id) => {
 
 export const selectUser = (id) => {
   return { type: SELECT_USER, facts: [
-    ['assert', id]
+    ['assert', id],
+  ]}
+}
+
+export const assignDay = (date, userId) => {
+  return { type: ASSIGN_DAY, facts: [
+    ['assert', date, 'day/user', userId],
   ]}
 }

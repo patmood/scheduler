@@ -11,9 +11,10 @@ export class App extends Component {
   render () {
     // console.log(this.props)
     const { users, days, activeUser, selectUser, addUser, deleteUser } = this.props
+    console.log(days)
     const dayList = days
       .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .map((day) => Object.assign({}, day, {user: users[day.user_id]}))
+      .map((day) => Object.assign({}, day, {user: users[day.userId]}))
 
     return (
       <div>
