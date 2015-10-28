@@ -34,3 +34,9 @@ export const assignDay = (date, userId) => {
     ['assert', date, 'day/user', userId],
   ]}
 }
+
+export const assignHoliday = (date, holidayName) => {
+  return { type: ASSIGN_HOLIDAY, facts: [
+    ['assert', date, 'day/holidayName', holidayName],
+  ]}
+}

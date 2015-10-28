@@ -13,7 +13,7 @@ export class App extends Component {
     const { users, days, activeUser, selectUser, addUser, deleteUser } = this.props
     const dayList = Object.keys(days).map((k) => days[k])
       .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .map((day) => Object.assign({}, day, {user: users[day.userId]}))
+      .map((day) => Object.assign({}, day, { user: users[day.userId] || {} }))
 
     return (
       <div>

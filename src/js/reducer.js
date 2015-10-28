@@ -1,6 +1,6 @@
 // To combine multiple reducers, use import { combineReducers } from 'redux';
 import Immutable from 'immutable'
-import { CREATE_USER, DELETE_USER, SELECT_USER, ASSIGN_DAY } from './actions'
+import { CREATE_USER, DELETE_USER, SELECT_USER, ASSIGN_DAY, ASSIGN_HOLIDAY } from './actions'
 const initialState = Immutable.fromJS({
   users: {},
   days: {},
@@ -13,6 +13,7 @@ export default (state = initialState, action) => {
     case DELETE_USER: return deleteUser(state, action)
     case SELECT_USER: return selectUser(state, action)
     case ASSIGN_DAY: return assignDay(state, action)
+    case ASSIGN_HOLIDAY: return assignHoliday(state, action)
 
     default:
       return state
@@ -44,4 +45,9 @@ const selectUser = (state, action) => {
 const assignDay = (state, action) => {
   const [ _type, id, _attributeName, value ] = action.facts[0]
   return state.setIn(['days', id], { date: id, userId: value })
+}
+
+const assignHoliday = (state, action) => {
+  const [ _type, id, _attributeName, value ] = action.facts[0]
+  return state.setIn(['days', id], { date: id, holidayName: value })
 }
