@@ -44,4 +44,10 @@ const actionReducers = {
     const [ _type, id, _attributeName, value ] = action.facts[0]
     return state.setIn(['days', id], { date: id, holidayName: value })
   },
+
+  UNASSIGN_HOLIDAY (state, action) {
+    const [ _type, id, _attributeName ] = action.facts[0]
+    console.log(action)
+    return state.setIn(['days', id], { date: id, holidayName: null })
+  }
 }

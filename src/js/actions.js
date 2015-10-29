@@ -30,3 +30,9 @@ export const assignHoliday = (date, holidayName) => {
     ['assert', date, 'day/holidayName', holidayName],
   ]}
 }
+
+export const unassignHoliday = (date) => {
+  return { type: 'UNASSIGN_HOLIDAY', facts: [
+    ['retract', date, 'day/holidayName'],
+  ]}
+}
