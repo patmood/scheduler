@@ -1,42 +1,32 @@
 import Uid from 'sequential-guid'
 const uid = new Uid()
 
-export const CREATE_USER = 'CREATE_USER'
-export const DELETE_USER = 'DELETE_USER'
-export const SELECT_USER = 'SELECT_USER'
-export const ASSIGN_DAY = 'ASSIGN_DAY'
-export const ASSIGN_HOLIDAY = 'ASSIGN_HOLIDAY'
-export const UNASSIGN_HOLIDAY = 'UNASSIGN_HOLIDAY'
-export const ASSIGN_UNAVAILABILITY = 'ASSIGN_UNAVAILABILITY'
-export const UNASSIGN_UNAVAILABILITY = 'UNASSIGN_UNAVAILABILITY'
-export const SWAP_ASSIGNMENT = 'SWAP_ASSIGNMENT'
-
 export const addUser = (name) => {
-  return { type: CREATE_USER, facts: [
+  return { type: 'CREATE_USER', facts: [
     ['assert', uid.next(), 'user/name', name],
   ]}
 }
 
 export const deleteUser = (id) => {
-  return { type: DELETE_USER, facts: [
+  return { type: 'DELETE_USER', facts: [
     ['retract', id],
   ] }
 }
 
 export const selectUser = (id) => {
-  return { type: SELECT_USER, facts: [
+  return { type: 'SELECT_USER', facts: [
     ['assert', id],
   ]}
 }
 
 export const assignDay = (date, userId) => {
-  return { type: ASSIGN_DAY, facts: [
+  return { type: 'ASSIGN_DAY', facts: [
     ['assert', date, 'day/user', userId],
   ]}
 }
 
 export const assignHoliday = (date, holidayName) => {
-  return { type: ASSIGN_HOLIDAY, facts: [
+  return { type: 'ASSIGN_HOLIDAY', facts: [
     ['assert', date, 'day/holidayName', holidayName],
   ]}
 }
