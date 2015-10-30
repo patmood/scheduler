@@ -56,16 +56,32 @@ const actionReducers = {
 
   ASSIGN_UNAVAILABILITY (state, action) {
     let [ _type, id, _attributeName, value ] = action.facts[0]
-    let tempState = state.setIn(['unavailability', id], Immutable.Map({ id, userId: value }))
+    state = state.setIn(['unavailability', id], Immutable.Map({ id, userId: value }))
 
     // Cant reassign with destructuring?
     // [ _type, id, _attributeName, value ] = action.facts[1]
     value = action.facts[1][3]
-    return tempState.mergeIn(['unavailability', id], Immutable.Map({ day: value }))
+    return state.mergeIn(['unavailability', id], Immutable.Map({ day: value }))
   },
 
   UNASSIGN_UNAVAILABILITY (state, action) {
     const [ _type, id ] = action.facts[0]
     return state.deleteIn(['unavailability', id])
   },
+
+  SWAP_ASSIGNMENT (state, action) {
+    let [ _type, day1, _attributeName, user1 ] = action.facts[0]
+    state = state.setIn(['days', day1], { date: day1, userId: user1 }) // set denton to monday
+    const day2 = action.facts[1][1]
+    const user2 = action.facts[1][3]
+    state = state.setIn(['days', day2], { date: day2, userId: user2 }) // set denton to monday
+
+    const unavailId = action.facts[2][1]
+    const unavailUserId = action.facts[2][3]
+    const unavailDate = action.facts[3][3]
+    state = state.setIn(['unavailability', unavailId], Immutable.Map({ unavailId, userId: unavailUserId, date: unavailDate }))
+
+    return state
+  },
+
 }
