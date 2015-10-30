@@ -41,7 +41,7 @@ const actionReducers = {
 
   ASSIGN_DAY (state, action) {
     const [ _type, id, _attributeName, value ] = action.facts[0]
-    return state.setIn(['days', id], { date: id, userId: value })
+    return state.setIn(['days', id], Immutable.Map({ date: id, userId: value }))
   },
 
   ASSIGN_HOLIDAY (state, action) {

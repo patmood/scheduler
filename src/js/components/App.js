@@ -3,17 +3,20 @@ import { connect } from 'react-redux'
 import Day from './Day'
 import SelectUser from './SelectUser'
 import AddUser from './AddUser'
-import { addUser, selectUser, deleteUser } from '../actions'
+import { addUser, selectUser, deleteUser, assignDay } from '../actions'
 import { partial } from 'lodash'
+import moment from 'moment'
 
 export class App extends Component {
 
   render () {
     // console.log(this.props)
-    const { users, days, activeUser, selectUser, addUser, deleteUser } = this.props
+    const { users, days, activeUser, selectUser, addUser, deleteUser, assignDay } = this.props
     const dayList = Object.keys(days).map((k) => days[k])
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .map((day) => Object.assign({}, day, { user: users[day.userId] || {} }))
+
+    const dateToday = moment().format('L')
 
     return (
       <div>
@@ -31,6 +34,7 @@ export class App extends Component {
               highlight={day.user_id === activeUser}/>
           )}
         </div>
+        <button onClick={partial(assignDay, dateToday, activeUser)}>Add Day</button>
       </div>
     )
   }
@@ -40,9 +44,10 @@ App.propTypes = {
   users: PropTypes.object,
   days: PropTypes.object,
   activeUser: PropTypes.string,
-  onSelectUser: PropTypes.func,
-  onAddUser: PropTypes.func,
-  onDeleteUser: PropTypes.func,
+  selectUser: PropTypes.func,
+  addUser: PropTypes.func,
+  deleteUser: PropTypes.func,
+  assignDay: PropTypes.func,
 }
 
 const mapStateToProps = (state) => state.toJS() // Convert from immutable.js to vanilla js object
@@ -59,6 +64,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     addUser: (name) => dispatch(addUser(name)),
     deleteUser: (id) => dispatch(deleteUser(id)),
+    assignDay: (date, userId) => dispatch(assignDay(date, userId)),
   }
 }
 
