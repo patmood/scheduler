@@ -28,10 +28,6 @@ if (window.addEventListener) {
 window.hydrateStore = (journalEntries) => {
   journalEntries.forEach((entry) => {
     entry.facts = JSON.parse(entry.facts)
-    console.log(entry)
-
-    if (['CREATE_USER', 'ASSIGN_DAY', 'ASSIGN_HOLIDAY', 'UNASSIGN_HOLIDAY'].indexOf(entry.type) > -1) {
-      store.dispatch(entry)
-    }
+    store.dispatch(entry)
   })
 }

@@ -36,3 +36,5 @@ export const unassignHoliday = (date) => {
     ['retract', date, 'day/holidayName'],
   ]}
 }
+
+// TODO: Add actions here to app interactions

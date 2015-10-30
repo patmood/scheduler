@@ -4,12 +4,16 @@ import Immutable from 'immutable'
 const initialState = Immutable.fromJS({
   users: {},
   days: {},
+  unavailability: {},
   activeUser: null,
 })
 
 export default (state = initialState, action) => {
+  console.log(action)
   const handler = actionReducers[action.type]
-  return handler ? handler(state, action) : state
+  state = handler ? handler(state, action) : state
+  window._state = state // Debug
+  return state
 }
 
 const actionReducers = {
@@ -47,7 +51,16 @@ const actionReducers = {
 
   UNASSIGN_HOLIDAY (state, action) {
     const [ _type, id, _attributeName ] = action.facts[0]
-    console.log(action)
     return state.setIn(['days', id], { date: id, holidayName: null })
-  }
+  },
+
+  ASSIGN_UNAVAILABILITY (state, action) {
+    let [ _type, id, _attributeName, value ] = action.facts[0]
+    let tempState = state.setIn(['unavailability', id], Immutable.Map({ id, userId: value }))
+
+    // Cant reassign with destructuring?
+    // [ _type, id, _attributeName, value ] = action.facts[1]
+    value = action.facts[1][3]
+    return tempState.mergeIn(['unavailability', id], Immutable.Map({ day: value }))
+  },
 }
