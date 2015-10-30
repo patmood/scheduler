@@ -63,4 +63,9 @@ const actionReducers = {
     value = action.facts[1][3]
     return tempState.mergeIn(['unavailability', id], Immutable.Map({ day: value }))
   },
+
+  UNASSIGN_UNAVAILABILITY (state, action) {
+    const [ _type, id ] = action.facts[0]
+    return state.deleteIn(['unavailability', id])
+  },
 }

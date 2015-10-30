@@ -37,4 +37,4 @@ export const unassignHoliday = (date) => {
   ]}
 }
 
-// TODO: Add actions here to app interactions
+// TODO: Add actions here for app interactions
