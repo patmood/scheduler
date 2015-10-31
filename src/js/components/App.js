@@ -31,7 +31,8 @@ export class App extends Component {
             <Day key={i}
               day={day}
               user={day.user}
-              activeUser={activeUser} />
+              activeUser={activeUser}
+              assignDay={assignDay} />
           )}
         </div>
         <button onClick={partial(assignDay, dateToday, activeUser)}>Add Day</button>
