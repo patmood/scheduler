@@ -1,6 +1,5 @@
 import React, { PropTypes, Component } from 'react'
-import partial from 'lodash'
-// import moment from 'moment'
+import { partial } from 'lodash'
 
 export class Day extends Component {
 
@@ -10,14 +9,9 @@ export class Day extends Component {
     return (
       <div style={ activeUser === user.id ? {backgroundColor: 'yellow'} : {}}>
         { day.date }: { day.holidayName ? `[${day.holidayName}]` : user.name }
-        <button onClick={this.assignToActive.bind(this)}>Assign</button>
+        <button onClick={partial(assignDay, day.date, activeUser)}>Assign</button>
       </div>
     )
-  }
-
-  assignToActive () {
-    const { day, user, activeUser, assignDay } = this.props
-    assignDay(day.date, activeUser)
   }
 }
 
