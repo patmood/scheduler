@@ -22,7 +22,7 @@ export class App extends Component {
       <div>
         <h1>Hello from App component</h1>
         <div>Active User: {activeUser}</div>
-        <SelectUser {...{users, selectUser}} />
+        <SelectUser {...{users, selectUser, activeUser}} />
         <AddUser addUser={addUser} />
         <button onClick={partial(deleteUser, activeUser)} disabled={!activeUser} >Delete This User</button>
         <h2>Schedule:</h2>

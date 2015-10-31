@@ -3,13 +3,13 @@ import React, { PropTypes, Component } from 'react'
 export class SelectUser extends Component {
 
   render () {
-    const { users } = this.props
+    const { users, activeUser } = this.props
     // Comma operator separates a list of EXPRESSIONS and returns the value of the last one (Doesnt work for statements)
     const userOptions = Object.keys(users).map((user) => (user = users[user], <option key={user.id} value={user.id}>{user.name}</option>))
     return (
       <div>
         <h2>Select User:</h2>
-        <select onChange={this.handleChange.bind(this)}>
+        <select onChange={this.handleChange.bind(this)} value={activeUser}>
           <option value=''>All users</option>
           {userOptions}
         </select>

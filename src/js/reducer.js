@@ -30,6 +30,7 @@ export default (state = initialState, action) => {
 const actionReducers = {
   CREATE_USER (state, action) {
     const [ _type, id, _attributeName, value ] = action.facts[0]
+    state = state.set('activeUser', id)
     return state.setIn(['users', id], Immutable.Map({ name: value, id }))
     // Non immutable technique:
     // const newUsers = Object.assign({}, state.users, { [id]: { name: value, id } })
