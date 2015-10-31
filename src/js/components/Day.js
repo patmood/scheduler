@@ -4,9 +4,9 @@ import moment from 'moment'
 export class Day extends Component {
 
   render () {
-    const { day, user, highlight } = this.props
+    const { day, user, activeUser } = this.props
     return (
-      <div style={ highlight ? {backgroundColor: 'yellow'} : {}}>
+      <div style={ activeUser === user.id ? {backgroundColor: 'yellow'} : {}}>
         { moment(new Date(day.date)).format('L') }: { day.holidayName ? `[${day.holidayName}]` : user.name }
       </div>
     )
@@ -16,7 +16,7 @@ export class Day extends Component {
 Day.propTypes = {
   user: PropTypes.object,
   day: PropTypes.object,
-  highlight: PropTypes.bool,
+  activeUser: PropTypes.string,
 }
 
 export default Day
