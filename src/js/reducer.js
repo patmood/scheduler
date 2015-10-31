@@ -1,9 +1,20 @@
 // To combine multiple reducers, use import { combineReducers } from 'redux';
 import Immutable from 'immutable'
+import moment from 'moment'
+
+const generateMonth = () => {
+  const days = {}
+  for (let i = 0; i < 30; i++) {
+    const day = moment().add(i, 'days').format('L')
+    days[day] = { date: day }
+  }
+  return days
+}
+
 
 const initialState = Immutable.fromJS({
   users: {},
-  days: {},
+  days: generateMonth(),
   unavailability: {},
   activeUser: null,
 })
