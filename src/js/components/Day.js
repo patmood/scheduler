@@ -9,7 +9,7 @@ export class Day extends Component {
     return (
       <div style={ activeUser === user.id ? {backgroundColor: 'yellow'} : {}}>
         { day.date }: { day.holidayName ? `[${day.holidayName}]` : user.name }
-        <button onClick={partial(assignDay, day.date, activeUser)}>Assign</button>
+        { user.id ? '' :<button onClick={partial(assignDay, day.date, activeUser)}>Assign</button>}
       </div>
     )
   }
