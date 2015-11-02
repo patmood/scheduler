@@ -80,7 +80,7 @@ const mapDispatchToProps = (dispatch) => {
     deleteUser: (id) => dispatch(deleteUser(id)),
     assignDay: (date, userId) => dispatch(assignDay(date, userId)),
     assignUnavailability: (date, userId) => dispatch(assignUnavailability(date, userId)),
-    unassignUnavailability: (date, userId) => dispatch(unassignUnavailability(date, userId)),
+    unassignUnavailability: (unavailabilityId) => dispatch(unassignUnavailability(unavailabilityId)),
   }
 }
 

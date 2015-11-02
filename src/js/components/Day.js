@@ -5,16 +5,16 @@ export class Day extends Component {
 
   render () {
     const { day, user, activeUserId, assignDay, assignUnavailability, unassignUnavailability } = this.props
-    const activeUserUnavailable = !!findWhere(day.unavailableUsers, { userId: activeUserId })
+    const activeUserUnavailability = findWhere(day.unavailableUsers, { userId: activeUserId })
 
     return (
       <div style={ activeUserId === user.id
           ? {backgroundColor: 'yellow'}
-          : {backgroundColor: activeUserUnavailable ? 'red' : ''} } >
+          : {backgroundColor: activeUserUnavailability ? 'red' : ''} } >
         { day.date }: { day.holidayName ? `[${day.holidayName}]` : user.name }
-        { user.id ? '' : <button onClick={partial(assignDay, day.date, activeUserId)} disabled={activeUserUnavailable}>Assign</button>}
-        { activeUserUnavailable
-          ? <button onClick={partial(unassignUnavailability, day.date, activeUserId)}>Mark Available</button>
+        { user.id ? '' : <button onClick={partial(assignDay, day.date, activeUserId)} disabled={!!activeUserUnavailability}>Assign</button>}
+        { activeUserUnavailability
+          ? <button onClick={partial(unassignUnavailability, activeUserUnavailability.id)}>Mark Available</button>
           : <button onClick={partial(assignUnavailability, day.date, activeUserId)}>Mark Unavailable</button>
         }
       </div>

@@ -44,9 +44,9 @@ export const assignUnavailability = (date, userId, unavailabilityId = uid.next()
   ]}
 }
 
-export const unassignUnavailability = () => {
+export const unassignUnavailability = (unavailabilityId) => {
   return { type: 'UNASSIGN_UNAVAILABILITY', facts: [
-    []
+    ['retract', unavailabilityId]
   ]}
 }
 
