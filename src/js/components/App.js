@@ -11,13 +11,12 @@ export class App extends Component {
 
   render () {
     // console.log(this.props)
-    const { users, days, activeUserId, selectUser, addUser, deleteUser, assignDay } = this.props
+    const { users, days, activeUserId, selectUser, addUser, deleteUser, assignDay, unavailability } = this.props
     const dayList = Object.keys(days).map((k) => days[k])
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .map((day) => Object.assign({}, day, { user: users[day.userId] || {} }))
 
     const dateToday = moment().format('L')
-    const activeUser = users[activeUserId]
 
     return (
       <div>
@@ -32,8 +31,9 @@ export class App extends Component {
             <Day key={i}
               day={day}
               user={day.user}
-              activeUser={activeUser}
-              assignDay={assignDay} />
+              activeUserId={activeUserId}
+              assignDay={assignDay}
+              unavailability={unavailability[day.date]} />
           )}
         </div>
         <button onClick={partial(assignDay, dateToday, activeUserId)}>Add Day</button>
