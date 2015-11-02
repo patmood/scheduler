@@ -3,18 +3,25 @@ import { connect } from 'react-redux'
 import Day from './Day'
 import SelectUser from './SelectUser'
 import AddUser from './AddUser'
-import { addUser, selectUser, deleteUser, assignDay } from '../actions'
-import { partial } from 'lodash'
+import { addUser, selectUser, deleteUser, assignDay, assignUnavailability, unassignUnavailability } from '../actions'
+import { partial, where } from 'lodash'
 import moment from 'moment'
 
 export class App extends Component {
 
   render () {
-    // console.log(this.props)
-    const { users, days, activeUserId, selectUser, addUser, deleteUser, assignDay, unavailability } = this.props
+    console.log(this.props)
+    const { users, days, activeUserId, selectUser, addUser, deleteUser, assignDay, unavailability, assignUnavailability, unassignUnavailability } = this.props
+
     const dayList = Object.keys(days).map((k) => days[k])
       .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .map((day) => Object.assign({}, day, { user: users[day.userId] || {} }))
+      .map((day) => {
+        const unavailableUsers = where(unavailability, { date: day.date } )
+        return Object.assign({}, day, {
+          user: users[day.userId] || {},
+          unavailableUsers: unavailableUsers
+        })
+      })
 
     const dateToday = moment().format('L')
 
@@ -33,7 +40,8 @@ export class App extends Component {
               user={day.user}
               activeUserId={activeUserId}
               assignDay={assignDay}
-              unavailability={unavailability[day.date]} />
+              assignUnavailability={assignUnavailability}
+              unassignUnavailability={unassignUnavailability} />
           )}
         </div>
         <button onClick={partial(assignDay, dateToday, activeUserId)}>Add Day</button>
@@ -45,11 +53,14 @@ export class App extends Component {
 App.propTypes = {
   users: PropTypes.object,
   days: PropTypes.object,
+  unavailability: PropTypes.object,
   activeUserId: PropTypes.string,
   selectUser: PropTypes.func,
   addUser: PropTypes.func,
   deleteUser: PropTypes.func,
   assignDay: PropTypes.func,
+  assignUnavailability: PropTypes.func,
+  unassignUnavailability: PropTypes.func,
 }
 
 // QUESTION: Why cant props stay immutable?
@@ -68,6 +79,8 @@ const mapDispatchToProps = (dispatch) => {
     addUser: (name) => dispatch(addUser(name)),
     deleteUser: (id) => dispatch(deleteUser(id)),
     assignDay: (date, userId) => dispatch(assignDay(date, userId)),
+    assignUnavailability: (date, userId) => dispatch(assignUnavailability(date, userId)),
+    unassignUnavailability: (date, userId) => dispatch(unassignUnavailability(date, userId)),
   }
 }
 

@@ -37,20 +37,21 @@ export const unassignHoliday = (date) => {
   ]}
 }
 
-export const assignUnavailability = (state, action) => {
-  return { type: ASSIGN_UNAVAILABILITY, facts: [
+export const assignUnavailability = (date, userId, unavailabilityId = uid.next()) => {
+  return { type: 'ASSIGN_UNAVAILABILITY', facts: [
+    ['assert', unavailabilityId, 'unavailability/user', userId],
+    ['assert', unavailabilityId, 'unavailability/date', date],
+  ]}
+}
+
+export const unassignUnavailability = () => {
+  return { type: 'UNASSIGN_UNAVAILABILITY', facts: [
     []
   ]}
 }
 
-export const unassignUnavailability = (state, action) => {
-  return { type: UNASSIGN_UNAVAILABILITY, facts: [
-    []
-  ]}
-}
-
-export const swapAssignment = (state, action) => {
-  return { type: SWAP_ASSIGNMENT, facts: [
+export const swapAssignment = () => {
+  return { type: 'SWAP_ASSIGNMENT', facts: [
     []
   ]}
 }

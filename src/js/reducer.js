@@ -73,7 +73,7 @@ const actionReducers = {
     // Cant reassign with destructuring?
     // [ _type, id, _attributeName, value ] = action.facts[1]
     value = action.facts[1][3]
-    return state.mergeIn(['unavailability', id], Immutable.Map({ day: value }))
+    return state.mergeIn(['unavailability', id], Immutable.Map({ date: value }))
   },
 
   UNASSIGN_UNAVAILABILITY (state, action) {
