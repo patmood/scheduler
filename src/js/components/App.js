@@ -11,7 +11,7 @@ export class App extends Component {
 
   render () {
     // console.log(this.props)
-    const { users, days, activeUser, selectUser, addUser, deleteUser, assignDay } = this.props
+    const { users, days, activeUserId, selectUser, addUser, deleteUser, assignDay } = this.props
     const dayList = Object.keys(days).map((k) => days[k])
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .map((day) => Object.assign({}, day, { user: users[day.userId] || {} }))
@@ -21,21 +21,21 @@ export class App extends Component {
     return (
       <div>
         <h1>Hello from App component</h1>
-        <div>Active User: {activeUser}</div>
-        <SelectUser {...{users, selectUser, activeUser}} />
+        <div>Active User: {activeUserId}</div>
+        <SelectUser {...{users, selectUser, activeUserId}} />
         <AddUser addUser={addUser} />
-        <button onClick={partial(deleteUser, activeUser)} disabled={!activeUser} >Delete This User</button>
+        <button onClick={partial(deleteUser, activeUserId)} disabled={!activeUserId} >Delete This User</button>
         <h2>Schedule:</h2>
         <div>
           {dayList.map((day, i) =>
             <Day key={i}
               day={day}
               user={day.user}
-              activeUser={activeUser}
+              activeUserId={activeUserId}
               assignDay={assignDay} />
           )}
         </div>
-        <button onClick={partial(assignDay, dateToday, activeUser)}>Add Day</button>
+        <button onClick={partial(assignDay, dateToday, activeUserId)}>Add Day</button>
       </div>
     )
   }
@@ -44,7 +44,7 @@ export class App extends Component {
 App.propTypes = {
   users: PropTypes.object,
   days: PropTypes.object,
-  activeUser: PropTypes.string,
+  activeUserId: PropTypes.string,
   selectUser: PropTypes.func,
   addUser: PropTypes.func,
   deleteUser: PropTypes.func,

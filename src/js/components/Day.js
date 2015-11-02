@@ -4,12 +4,12 @@ import { partial } from 'lodash'
 export class Day extends Component {
 
   render () {
-    const { day, user, activeUser, assignDay } = this.props
+    const { day, user, activeUserId, assignDay } = this.props
 
     return (
-      <div style={ activeUser === user.id ? {backgroundColor: 'yellow'} : {}}>
+      <div style={ activeUserId === user.id ? {backgroundColor: 'yellow'} : {}}>
         { day.date }: { day.holidayName ? `[${day.holidayName}]` : user.name }
-        { user.id ? '' :<button onClick={partial(assignDay, day.date, activeUser)}>Assign</button>}
+        { user.id ? '' :<button onClick={partial(assignDay, day.date, activeUserId)}>Assign</button>}
       </div>
     )
   }
@@ -18,7 +18,7 @@ export class Day extends Component {
 Day.propTypes = {
   user: PropTypes.object,
   day: PropTypes.object,
-  activeUser: PropTypes.string,
+  activeUserId: PropTypes.string,
   assignDay: PropTypes.func,
 }
 

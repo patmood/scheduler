@@ -37,4 +37,20 @@ export const unassignHoliday = (date) => {
   ]}
 }
 
-// TODO: Add actions here for app interactions
+export const assignUnavailability = (state, action) => {
+  return { type: ASSIGN_UNAVAILABILITY, facts: [
+    []
+  ]}
+}
+
+export const unassignUnavailability = (state, action) => {
+  return { type: UNASSIGN_UNAVAILABILITY, facts: [
+    []
+  ]}
+}
+
+export const swapAssignment = (state, action) => {
+  return { type: SWAP_ASSIGNMENT, facts: [
+    []
+  ]}
+}
