@@ -17,6 +17,7 @@ export class App extends Component {
       .map((day) => Object.assign({}, day, { user: users[day.userId] || {} }))
 
     const dateToday = moment().format('L')
+    const activeUser = users[activeUserId]
 
     return (
       <div>
@@ -31,7 +32,7 @@ export class App extends Component {
             <Day key={i}
               day={day}
               user={day.user}
-              activeUserId={activeUserId}
+              activeUser={activeUser}
               assignDay={assignDay} />
           )}
         </div>
@@ -51,6 +52,7 @@ App.propTypes = {
   assignDay: PropTypes.func,
 }
 
+// QUESTION: Why cant props stay immutable?
 const mapStateToProps = (state) => state.toJS() // Convert from immutable.js to vanilla js object
 
 const mapDispatchToProps = (dispatch) => {
