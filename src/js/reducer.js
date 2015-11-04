@@ -11,7 +11,6 @@ const generateMonth = () => {
   return days
 }
 
-
 const initialState = Immutable.fromJS({
   users: {},
   days: generateMonth(),
@@ -23,7 +22,7 @@ export default (state = initialState, action) => {
   console.log(action)
   const handler = actionReducers[action.type]
   state = handler ? handler(state, action) : state
-  window._state = state // Debug
+  window._state = state.toJS() // Debug
   return state
 }
 
@@ -53,27 +52,27 @@ const actionReducers = {
 
   ASSIGN_DAY (state, action) {
     const [ _type, id, _attributeName, value ] = action.facts[0]
-    return state.setIn(['days', id], Immutable.Map({ date: id, userId: value }))
+    return state.updateIn(['days', id], () => Immutable.fromJS({ date: id, userId: value }))
   },
 
   ASSIGN_HOLIDAY (state, action) {
     const [ _type, id, _attributeName, value ] = action.facts[0]
-    return state.setIn(['days', id], { date: id, holidayName: value })
+    return state.updateIn(['days', id], () => Immutable.fromJS({ date: id, holidayName: value }))
   },
 
   UNASSIGN_HOLIDAY (state, action) {
     const [ _type, id, _attributeName ] = action.facts[0]
-    return state.setIn(['days', id], { date: id, holidayName: null })
+    return state.updateIn(['days', id], () => Immutable.fromJS({ date: id, holidayName: null }))
   },
 
   ASSIGN_UNAVAILABILITY (state, action) {
-    let [ _type, id, _attributeName, value ] = action.facts[0]
-    state = state.setIn(['unavailability', id], Immutable.Map({ id, userId: value }))
+    const [ userFact, dateFact ] = action.facts
+    let [ _type, id, _attributeName, value ] = userFact
+    const newUnavailability = { id, userId: value }
+    const valueIndex = 3
+    newUnavailability.date = dateFact[valueIndex]
 
-    // Cant reassign with destructuring?
-    // [ _type, id, _attributeName, value ] = action.facts[1]
-    value = action.facts[1][3]
-    return state.mergeIn(['unavailability', id], Immutable.Map({ date: value }))
+    return state.updateIn(['unavailability', id], () => Immutable.Map(newUnavailability))
   },
 
   UNASSIGN_UNAVAILABILITY (state, action) {
@@ -82,6 +81,7 @@ const actionReducers = {
   },
 
   SWAP_ASSIGNMENT (state, action) {
+    // TODO: Refactor into 2 jobs - extract information from action, performing update
     let [ _type, day1, _attributeName, user1 ] = action.facts[0]
     state = state.setIn(['days', day1], { date: day1, userId: user1 }) // set denton to monday
     const day2 = action.facts[1][1]
