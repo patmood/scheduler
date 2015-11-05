@@ -42,17 +42,17 @@ build js: `./run watch`
 
 # Issues
 
-- Cant require .jsx files with brwoserify
+- Cant require .jsx files with browserify
 - Best place to bootstrap server rendered data? Once globally or scoped to individual component
 
 # TODO
 
 - Simulation test + production
-- Generate journal entrines on client
+- Generate journal entries on client
 - Store is list of actions
 - Actions create state
-- react tree receieves state
+- react tree receives state
 
-# Userful
+# Useful
 
 Redux docs: http://rackt.github.io/redux/docs/basics/Reducers.html

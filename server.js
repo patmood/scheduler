@@ -16,7 +16,6 @@ import MultiStream from 'multistream'
 
 import { User, Day } from './libs/Entities'
 import App from './src/js/components/App'
-import Html from './src/js/components/Html'
 
 import * as db from './libs/db'
 
