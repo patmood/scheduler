@@ -1,25 +1,5 @@
-import React, { PropTypes, Component } from 'react'
+import React, { PropTypes } from 'react'
 import { partial, findWhere } from 'lodash'
-
-// export class Day extends Component {
-//
-//   render () {
-//     const { day, user, activeUserId, assignDay, assignUnavailability, unassignUnavailability } = this.props
-//     const activeUserUnavailability = findWhere(day.unavailableUsers, { userId: activeUserId })
-//
-//     return (
-//       <div style={dayStyle(activeUserId, user.id, activeUserUnavailability)} >
-//         { day.date }: { day.holidayName ? `[${day.holidayName}]` : user.name }
-//         { user.id ? '' : <button onClick={partial(assignDay, day.date, activeUserId)} disabled={!!activeUserUnavailability}>Assign</button>}
-//         { activeUserUnavailability
-//           ? <button onClick={partial(unassignUnavailability, activeUserUnavailability.id)}>Mark Available</button>
-//           : <button onClick={partial(assignUnavailability, day.date, activeUserId)}>Mark Unavailable</button>
-//         }
-//       </div>
-//     )
-//   }
-//
-// }
 
 export const Day =
 ({ day, user, activeUserId, assignDay, assignUnavailability, unassignUnavailability, activeUserUnavailability }) => (
