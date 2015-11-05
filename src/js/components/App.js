@@ -8,6 +8,12 @@ import { partial, where } from 'lodash'
 import moment from 'moment'
 
 export class App extends Component {
+  constructor () {
+    super()
+    this.state = {
+      swapToSwap: null,
+    }
+  }
 
   render () {
     console.log(this.props)
@@ -28,6 +34,7 @@ export class App extends Component {
     return (
       <div>
         <h1>Hello from App component</h1>
+        { this.state.dateToSwap ? <h1>SWAPPING</h1> : ''}
         <div>Active User: {activeUserId}</div>
         <SelectUser {...{users, selectUser, activeUserId}} />
         <AddUser addUser={addUser} />
@@ -41,12 +48,24 @@ export class App extends Component {
               activeUserId={activeUserId}
               assignDay={assignDay}
               assignUnavailability={assignUnavailability}
-              unassignUnavailability={unassignUnavailability} />
+              unassignUnavailability={unassignUnavailability}
+              swapDay={this.swapDay.bind(this)}
+              cancelSwapDay={this.cancelSwapDay.bind(this)}
+              dateToSwap={this.state.dateToSwap} />
           )}
         </div>
         <button onClick={partial(assignDay, dateToday, activeUserId)}>Add Day</button>
       </div>
     )
+  }
+
+  swapDay (date, userId) {
+    console.log('component method', date, userId)
+    this.setState({ dateToSwap: date })
+  }
+
+  cancelSwapDay () {
+    this.setState({ dateToSwap: null })
   }
 }
 
