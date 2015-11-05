@@ -29,7 +29,7 @@ export const Day =
     { user.id ? '' : <button onClick={partial(assignDay, day.date, activeUserId)} disabled={!!activeUserUnavailability}>Assign</button>}
     { activeUserUnavailability
       ? <button onClick={partial(unassignUnavailability, activeUserUnavailability.id)}>Mark Available</button>
-      : <button onClick={partial(assignUnavailability, day.date, activeUserId)}>Mark Unavailable</button>
+      : <button onClick={partial(assignUnavailability, day.date, activeUserId)} disabled={user.id === activeUserId}>Mark Unavailable</button>
     }
   </div>
 )
