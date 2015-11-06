@@ -4,19 +4,18 @@ import Day from './Day'
 import SelectUser from './SelectUser'
 import AddUser from './AddUser'
 import { addUser, selectUser, deleteUser, assignDay, assignUnavailability, unassignUnavailability } from '../actions'
-import { partial, where } from 'lodash'
+import { partial, where, values } from 'lodash'
 import moment from 'moment'
 
 export class App extends Component {
   constructor () {
     super()
     this.state = {
-      swapToSwap: null,
+      dateToSwap: null,
     }
   }
 
   render () {
-    console.log(this.props)
     const { users, days, activeUserId, selectUser, addUser, deleteUser, assignDay, unavailability, assignUnavailability, unassignUnavailability } = this.props
 
     const dayList = Object.keys(days).map((k) => days[k])
@@ -30,11 +29,14 @@ export class App extends Component {
       })
 
     const dateToday = moment().format('L')
+    const unavailabilityList = values(unavailability)
+    const unavailableToSwap = where(unavailabilityList, { date: this.state.dateToSwap })
+    console.log('unavail:', unavailableToSwap)
 
     return (
       <div>
         <h1>Hello from App component</h1>
-        { this.state.dateToSwap ? <h1>SWAPPING</h1> : ''}
+        { this.state.dateToSwap ? <h1>SWAPPING {this.state.dateToSwap}</h1> : ''}
         <div>Active User: {activeUserId}</div>
         <SelectUser {...{users, selectUser, activeUserId}} />
         <AddUser addUser={addUser} />
@@ -51,7 +53,8 @@ export class App extends Component {
               unassignUnavailability={unassignUnavailability}
               swapDay={this.swapDay.bind(this)}
               cancelSwapDay={this.cancelSwapDay.bind(this)}
-              dateToSwap={this.state.dateToSwap} />
+              dateToSwap={this.state.dateToSwap}
+              unavailableToSwap={unavailableToSwap} />
           )}
         </div>
         <button onClick={partial(assignDay, dateToday, activeUserId)}>Add Day</button>

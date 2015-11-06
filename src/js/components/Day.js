@@ -12,7 +12,8 @@ export const Day =
   isActiveUsersDay,
   swapDay,
   cancelSwapDay,
-  dateToSwap }) => (
+  dateToSwap,
+  unavailableToSwap }) => (
   activeUserUnavailability = findWhere(day.unavailableUsers, { userId: activeUserId }),
   isActiveUsersDay = user.id === activeUserId,
   <div style={dayStyle(activeUserId, user.id, activeUserUnavailability)} >
@@ -25,10 +26,13 @@ export const Day =
     {
       isActiveUsersDay
         ? <button onClick={partial(swapDay, day.date, user.id)}>Swap Day</button>
-      : ''
+        : ''
     }
     {
       dateToSwap === day.date ? <button onClick={cancelSwapDay}>Cancel</button> : ''
+    }
+    {
+      findWhere(unavailableToSwap, { userId: user.id }) ? 'available' : 'not available'
     }
   </div>
 )

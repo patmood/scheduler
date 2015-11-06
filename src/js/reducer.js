@@ -19,7 +19,7 @@ const initialState = Immutable.fromJS({
 })
 
 export default (state = initialState, action) => {
-  console.log(action)
+  // console.log(action) // Debug
   const handler = actionReducers[action.type]
   state = handler ? handler(state, action) : state
   window._state = state.toJS() // Debug
