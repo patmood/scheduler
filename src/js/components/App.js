@@ -11,7 +11,7 @@ export class App extends Component {
   constructor () {
     super()
     this.state = {
-      dateToSwap: null,
+      swapping: {},
     }
   }
 
@@ -21,22 +21,20 @@ export class App extends Component {
     const dayList = Object.keys(days).map((k) => days[k])
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .map((day) => {
-        const unavailableUsers = where(unavailability, { date: day.date } )
+        const unavailableUsers = where(unavailability, { date: day.date })
         return Object.assign({}, day, {
           user: users[day.userId] || {},
-          unavailableUsers: unavailableUsers
+          unavailableUsers: unavailableUsers,
         })
       })
 
     const dateToday = moment().format('L')
-    const unavailabilityList = values(unavailability)
-    const unavailableToSwap = where(unavailabilityList, { date: this.state.dateToSwap })
-    console.log('unavail:', unavailableToSwap)
+    console.log('unavail:', this.state.unavailableToSwap)
 
     return (
       <div>
         <h1>Hello from App component</h1>
-        { this.state.dateToSwap ? <h1>SWAPPING {this.state.dateToSwap}</h1> : ''}
+        { this.state.unavailableToSwap ? <h1>SWAPPING {this.state.swapping}</h1> : ''}
         <div>Active User: {activeUserId}</div>
         <SelectUser {...{users, selectUser, activeUserId}} />
         <AddUser addUser={addUser} />
@@ -52,9 +50,8 @@ export class App extends Component {
               assignUnavailability={assignUnavailability}
               unassignUnavailability={unassignUnavailability}
               swapDay={this.swapDay.bind(this)}
-              cancelSwapDay={this.cancelSwapDay.bind(this)}
-              dateToSwap={this.state.dateToSwap}
-              unavailableToSwap={unavailableToSwap} />
+              swapping={this.state.swapping}
+              cancelSwapDay={this.cancelSwapDay.bind(this)} />
           )}
         </div>
         <button onClick={partial(assignDay, dateToday, activeUserId)}>Add Day</button>
@@ -63,12 +60,15 @@ export class App extends Component {
   }
 
   swapDay (date, userId) {
-    console.log('component method', date, userId)
-    this.setState({ dateToSwap: date })
+    const unavailabilityList = values(this.props.unavailability)
+    const unavailableToSwap = where(unavailabilityList, { date })
+    this.setState({ swapping: { date, userId, unavailableToSwap } })
   }
 
   cancelSwapDay () {
-    this.setState({ dateToSwap: null })
+    this.setState({
+      swapping: {},
+    })
   }
 }
 
