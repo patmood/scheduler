@@ -82,6 +82,11 @@ export const journalEntryReader = (startTime = new Date(0)) => {
   return s
 }
 
+export const journalEntryReaderAsync = (startTime = new Date(0)) => {
+  query.connectionParameters = conString
+  return query('select * from journal_entries where ts > $1', [startTime])
+}
+
 if (!module.parent) {
   // This is run with the reset script
   seed(() => {

@@ -12,6 +12,7 @@ import stream from 'stream'
 import JSONStream from 'JSONStream'
 import MultiStream from 'multistream'
 import bodyParser from 'koa-body-parser'
+import { where } from 'lodash'
 
 import * as db from './libs/db'
 
@@ -66,7 +67,17 @@ app.use(route.post('/journal', function * () {
 
   this.type = 'json'
   response.status = 200
-  // this.body = { test: 123 }
+}))
+
+app.use(route.get('/fillSchedule', function * () {
+  this.type = 'json'
+  const [entries] = yield db.journalEntryReaderAsync()
+  const days = where(entries, {type: 'ASSIGN_DAY'})
+    .map((entry) => new Date(JSON.parse(entry.facts)[0][1]))
+    .sort()
+  const lastDay = days[days.length - 1]
+
+  this.body = lastDay
 }))
 
 // Serve static assets
