@@ -77,7 +77,12 @@ app.use(route.get('/fillSchedule', function * () {
     .sort()
   const lastDay = days[days.length - 1]
 
-  this.body = lastDay
+  const monthFromNow = new Date()
+  monthFromNow.setDate(monthFromNow.getDate() + 30)
+
+  const daysToAdd = Math.floor((monthFromNow - lastDay) / (1000 * 60 * 60 * 24))
+
+  this.body = daysToAdd
 }))
 
 // Serve static assets
