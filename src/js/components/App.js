@@ -6,6 +6,7 @@ import AddUser from './AddUser'
 import { addUser, selectUser, deleteUser, assignDay, assignUnavailability, unassignUnavailability } from '../actions'
 import { partial, where, values } from 'lodash'
 import moment from 'moment'
+import request from 'superagent'
 
 export class App extends Component {
   constructor () {
@@ -91,14 +92,24 @@ const mapStateToProps = (state) => state.toJS() // Convert from immutable.js to 
 const mapDispatchToProps = (dispatch) => {
   return {
     selectUser: (id) => {
+      dispatch(selectUser(id))
+    },
+    addUser: (name) => {
       // Optimistic action dispatch
-      const journalEntry = selectUser(id)
+      const journalEntry = addUser(name)
       dispatch(journalEntry, { optimistic: true }) // -> add extra attribute to say optimistic
         // Need middleware ot handle optimistic option and undo it
+
       // Server request with journal entry from action above
+      request.post('/journal')
+        .send(journalEntry)
+        .end((err, res) => {
+          if (err) console.log(err)
+          console.log(res)
+        })
+
       // Update UI to apply or reverse update depending on server response
     },
-    addUser: (name) => dispatch(addUser(name)),
     deleteUser: (id) => dispatch(deleteUser(id)),
     assignDay: (date, userId) => dispatch(assignDay(date, userId)),
     assignUnavailability: (date, userId) => dispatch(assignUnavailability(date, userId)),

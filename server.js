@@ -59,9 +59,10 @@ app.use(route.get('/journal', function * () {
 
 app.use(route.post('/journal', function * () {
   const { request, response } = this
-
+  const entry = request.body
+  entry.ts = new Date()
   // Use body parser middleware. If using request stream how can we separate the body to write to DB?
-  yield db.saveEntry(request.body)
+  yield db.saveEntry(entry)
 
   this.type = 'json'
   response.status = 200

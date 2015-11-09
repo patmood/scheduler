@@ -54,6 +54,7 @@ const seed = (callback) => {
 }
 
 export const saveEntry = (newEntry) => {
+  console.log('Writing:', JSON.stringify(newEntry))
   query.connectionParameters = conString
   const queryObject = journalEntryPgInsert(newEntry)
   return query(queryObject.text, queryObject.values)
