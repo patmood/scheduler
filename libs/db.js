@@ -3,6 +3,7 @@ import pg from 'pg'
 const conString = 'postgres:///scheduler'
 import stream from 'stream'
 import QueryStream from 'pg-query-stream'
+import query from 'pg-query'
 
 // query( {name:'emp_name', text:'select name from emp where emp_id=$1', values:[123]} )
 
@@ -22,12 +23,12 @@ const mock = {
 const journalEntryPgInsert = (journalEntry) => {
   return {
     name: 'insert_journal_entry',
-    text: 'insert into journal_entries (ts, name, facts) values ($1, $2, $3)',
-    values: [ journalEntry.ts, journalEntry.name, JSON.stringify(journalEntry.facts) ],
+    text: 'insert into journal_entries (ts, type, facts) values ($1, $2, $3)',
+    values: [ journalEntry.ts, journalEntry.type, JSON.stringify(journalEntry.facts) ],
   }
 }
 
-const journalEntryWriter = (client) => {
+export const journalEntryWriter = (client) => {
   return new stream.Writable({
     write: function (chunk, _enc, callback) {
       client.query(journalEntryPgInsert(chunk)).on('error', (err) => callback(err))
@@ -52,7 +53,13 @@ const seed = (callback) => {
   })
 }
 
-export const journalEntryReader = (startTime = new Date(0) ) => {
+export const saveEntry = (newEntry) => {
+  query.connectionParameters = conString
+  const queryObject = journalEntryPgInsert(newEntry)
+  return query(queryObject.text, queryObject.values)
+}
+
+export const journalEntryReader = (startTime = new Date(0)) => {
   // Create a passthrough stream to export
   const s = stream.PassThrough({ objectMode: true })
   // const s = new stream.Transform({

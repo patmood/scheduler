@@ -11,10 +11,13 @@ import send from 'koa-send'
 import stream from 'stream'
 import JSONStream from 'JSONStream'
 import MultiStream from 'multistream'
+import bodyParser from 'koa-body-parser'
 
 import * as db from './libs/db'
 
 const app = koa()
+
+app.use(bodyParser())
 
 // Log request times
 app.use(function * (next) {
@@ -52,6 +55,17 @@ app.use(route.get('/journal', function * () {
   this.type = 'json'
   this.body = db.journalEntryReader()
     .pipe(JSONStream.stringify())
+}))
+
+app.use(route.post('/journal', function * () {
+  const { request, response } = this
+
+  // Use body parser middleware. If using request stream how can we separate the body to write to DB?
+  yield db.saveEntry(request.body)
+
+  this.type = 'json'
+  response.status = 200
+  // this.body = { test: 123 }
 }))
 
 // Serve static assets

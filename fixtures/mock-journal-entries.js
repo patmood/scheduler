@@ -1,6 +1,6 @@
 export const entries = [
   {
-    name: 'CREATE_USER',
+    type: 'CREATE_USER',
     ts: {
       type: 'timestamp',
       value: 0,
@@ -10,7 +10,7 @@ export const entries = [
     ],
   },
   {
-    name: 'CREATE_USER',
+    type: 'CREATE_USER',
     ts: {
       type: 'timestamp',
       value: 1,
@@ -20,7 +20,7 @@ export const entries = [
     ],
   },
   {
-    name: 'ASSIGN_DAY',
+    type: 'ASSIGN_DAY',
     ts: {
       type: 'timestamp',
       value: 2,
@@ -30,7 +30,7 @@ export const entries = [
     ],
   },
   {
-    name: 'ASSIGN_DAY',
+    type: 'ASSIGN_DAY',
     ts: {
       type: 'timestamp',
       value: 3,
@@ -40,7 +40,7 @@ export const entries = [
     ],
   },
   {
-    name: 'ASSIGN_HOLIDAY',
+    type: 'ASSIGN_HOLIDAY',
     ts: {
       type: 'timestamp',
       value: 4,
@@ -50,7 +50,7 @@ export const entries = [
     ],
   },
   {
-    name: 'UNASSIGN_HOLIDAY',
+    type: 'UNASSIGN_HOLIDAY',
     ts: {
       type: 'timestamp',
       value: 5,
@@ -60,7 +60,7 @@ export const entries = [
     ],
   },
   {
-    name: 'ASSIGN_UNAVAILABILITY',
+    type: 'ASSIGN_UNAVAILABILITY',
     ts: {
       type: 'timestamp',
       value: 6,
@@ -71,7 +71,7 @@ export const entries = [
     ],
   },
   {
-    name: 'UNASSIGN_UNAVAILABILITY',
+    type: 'UNASSIGN_UNAVAILABILITY',
     ts: {
       type: 'timestamp',
       value: 7,
@@ -81,7 +81,7 @@ export const entries = [
     ],
   },
   {
-    name: 'SWAP_ASSIGNMENT',
+    type: 'SWAP_ASSIGNMENT',
     ts: {
       type: 'timestamp',
       value: 8,
