@@ -82,10 +82,11 @@ export const journalEntryReader = (startTime = new Date(0)) => {
 }
 
 if (!module.parent) {
-  // seed(() => {
-  //   console.log('seeded')
-  //   pg.end()
-  // })
+  // This is run with the reset script
+  seed(() => {
+    console.log('seeded')
+    pg.end()
+  })
 
-  journalEntryReader().on('data', (data) => console.log(data))
+  // journalEntryReader().on('data', (data) => console.log(data))
 }
