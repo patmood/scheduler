@@ -17,6 +17,7 @@ export class AddUser extends Component {
     e.preventDefault()
     const name = this.refs.username.value
     this.props.addUser(name)
+    this.refs.username.value = ''
   }
 }
 
