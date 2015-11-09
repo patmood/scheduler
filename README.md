@@ -2,8 +2,13 @@
 
 Scheduling Web app using the Koa framework.
 
-run server: `nodemon -q -x 'clear & npm start'`
-build js: `./run watch`
+Streaming big pipe style rendering.
+
+Journal/Command style architecture
+
+run server: `nodemon -q -x 'clear & ./run db-reset & npm start'`
+build and watch js: `./run watch`
+reset and seed database: `./run db-reset`
 
 
 # Specs
@@ -47,11 +52,10 @@ build js: `./run watch`
 
 # TODO
 
-- Simulation test + production
-- Generate journal entries on client
-- Store is list of actions
-- Actions create state
-- react tree receives state
+- Method to fetch all 'ASSIGN_DAY' commands from db and find latest
+- Dispatch command to assign next day to the least assigned person
+- Repeat until days are assigned up to 30 days ahead
+- Run the command with setInterval daily
 
 # Useful
 
