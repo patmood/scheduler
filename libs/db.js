@@ -1,11 +1,11 @@
 import { generateEntriesReadableStream } from './GenerateTestEntries'
 import pg from 'pg'
-const conString = 'postgres:///scheduler'
+const dbUrl = 'postgres:///scheduler'
 import stream from 'stream'
 import QueryStream from 'pg-query-stream'
 import query from 'pg-query'
 
-// query( {name:'emp_name', text:'select name from emp where emp_id=$1', values:[123]} )
+query.connectionParameters = process.env.DATABASE_URL || dbUrl
 
 const mock = {
   'name': 'CREATE_USER',
@@ -23,8 +23,8 @@ const mock = {
 const journalEntryPgInsert = (journalEntry) => {
   return {
     name: 'insert_journal_entry',
-    text: 'insert into journal_entries (ts, type, facts) values ($1, $2, $3)',
-    values: [ journalEntry.ts, journalEntry.type, JSON.stringify(journalEntry.facts) ],
+    text: 'insert into journal_entries (ts, uuid, type, facts) values ($1, $2, $3, $4)',
+    values: [ journalEntry.ts, journalEntry.uuid, journalEntry.type, JSON.stringify(journalEntry.facts) ],
   }
 }
 
@@ -39,7 +39,7 @@ export const journalEntryWriter = (client) => {
 }
 
 const seed = (callback) => {
-  pg.connect(conString, (err, client, done) => {
+  pg.connect(dbUrl, (err, client, done) => {
     if (err) throw err
 
     generateEntriesReadableStream()
@@ -55,9 +55,35 @@ const seed = (callback) => {
 
 export const saveEntry = (newEntry) => {
   console.log('Writing:', JSON.stringify(newEntry))
-  query.connectionParameters = conString
   const queryObject = journalEntryPgInsert(newEntry)
-  return query(queryObject.text, queryObject.values)
+  // return query(
+  //   'if not exists (select uuid from journal_entries where uuid=$2) insert into journal_entries (ts, uuid, type, facts) values ($1, $2, $3, $4) end if',
+  //   queryObject.values
+  // )
+
+  return new Promise((resolve, reject) => {
+    pg.connect(dbUrl, (err, client, done) => {
+      if (err) return reject(err)
+
+      client.query('begin')
+      client.query('select uuid from journal_entries where uuid=$1', [newEntry.uuid], (err, pgResult) => {
+        if (err) return reject(err)
+        if (pgResult.rowCount > 0) {
+          client.query('commit')
+          done()
+          return resolve(true)
+        }
+
+        // Create new entry
+        client.query(queryObject)
+        client.query('commit', (err, _pgResult) => {
+          if (err) return reject(err)
+          done()
+          resolve(true)
+        })
+      })
+    })
+  })
 }
 
 export const journalEntryReader = (startTime = new Date(0)) => {
@@ -72,7 +98,7 @@ export const journalEntryReader = (startTime = new Date(0)) => {
   // })
 
   const qs = new QueryStream('select * from journal_entries where ts > $1', [startTime])
-  pg.connect(conString, (err, client, done) => {
+  pg.connect(dbUrl, (err, client, done) => {
     if (err) throw err
     const stream = client.query(qs)
     stream.on('end', done)
@@ -83,7 +109,7 @@ export const journalEntryReader = (startTime = new Date(0)) => {
 }
 
 export const journalEntryReaderAsync = (startTime = new Date(0)) => {
-  query.connectionParameters = conString
+  query.connectionParameters = dbUrl
   return query('select * from journal_entries where ts > $1', [startTime])
 }
 

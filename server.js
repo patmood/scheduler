@@ -58,15 +58,22 @@ app.use(route.get('/journal', function * () {
     .pipe(JSONStream.stringify())
 }))
 
-app.use(route.post('/journal', function * () {
+app.use(route.put('/journal', function * () {
   const { request, response } = this
   const entry = request.body
   entry.ts = new Date()
-  // Use body parser middleware. If using request stream how can we separate the body to write to DB?
+
+  // Randomly fail and resend on client
+  if (true) {//(Math.random() < 0.5) {
+    response.status = 502
+    return
+  }
+
   yield db.saveEntry(entry)
 
   this.type = 'json'
   response.status = 200
+  this.body = entry.ts
 }))
 
 app.use(route.get('/fillSchedule', function * () {

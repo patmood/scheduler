@@ -24,6 +24,7 @@ export const generateEntriesReadableStream = (seedEntries = entries) => {
 const transformEntry = (entry) => {
   // Replace timestamp placeholder with real timestamp
   entry = Object.assign({}, entry)
+  entry.uuid = uid.next()
   entry.ts = transformValue(entry.ts)
   entry.facts = entry.facts.map(transformFact)
   return entry

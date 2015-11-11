@@ -1,9 +1,8 @@
-import Uid from 'sequential-guid'
-const uid = new Uid()
+import uuid from 'uuid'
 
 export const addUser = (name) => {
   return { type: 'CREATE_USER', facts: [
-    ['assert', uid.next(), 'user/name', name],
+    ['assert', uuid(), 'user/name', name],
   ]}
 }
 

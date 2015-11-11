@@ -52,10 +52,12 @@ reset and seed database: `./run db-reset`
 
 # TODO
 
+- Use https://github.com/tim-kos/node-retry to retry failed requests now that creation is itempotent
 - Method to fetch all 'ASSIGN_DAY' commands from db and find latest
 - Dispatch command to assign next day to the least assigned person
 - Repeat until days are assigned up to 30 days ahead
 - Run the command with setInterval daily
+-
 
 # Useful
 
