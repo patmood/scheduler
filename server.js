@@ -63,8 +63,10 @@ app.use(route.put('/journal', function * () {
   const entry = request.body
   entry.ts = new Date()
 
-  // Randomly fail and resend on client
-  if (true) {//(Math.random() < 0.5) {
+  console.log(`\x1b[33m${JSON.stringify(entry, null, 2)}\x1b[0m`)
+
+  // Simulate random failure to test optimistic update handling on client
+  if (Math.random() < 0.3) {
     response.status = 502
     return
   }

@@ -36,7 +36,7 @@ export const unassignHoliday = (date) => {
   ]}
 }
 
-export const assignUnavailability = (date, userId, unavailabilityId = uid.next()) => {
+export const assignUnavailability = (date, userId, unavailabilityId = uuid()) => {
   return { type: 'ASSIGN_UNAVAILABILITY', facts: [
     ['assert', unavailabilityId, 'unavailability/user', userId],
     ['assert', unavailabilityId, 'unavailability/date', date],
