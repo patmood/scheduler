@@ -19,7 +19,7 @@ const initialState = Immutable.fromJS({
 })
 
 export default (state = initialState, action) => {
-  // console.log(action) // Debug
+  console.log(action) // Debug
   const handler = actionReducers[action.type]
   state = handler ? handler(state, action) : state
   window._state = state.toJS() // Debug
@@ -38,6 +38,9 @@ const actionReducers = {
 
   DELETE_USER (state, action) {
     const [ _type, id ] = action.facts[0]
+    if (state.get('activeUserId') === id) {
+      state = state.set('activeUserId', null)
+    }
     return state.deleteIn(['users', id])
     // Non immutable technique:
     // const newUsers = Object.assign({}, state.users)

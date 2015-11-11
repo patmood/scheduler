@@ -66,10 +66,10 @@ app.use(route.put('/journal', function * () {
   console.log(`\x1b[33m${JSON.stringify(entry, null, 2)}\x1b[0m`)
 
   // Simulate random failure to test optimistic update handling on client
-  if (Math.random() < 0.3) {
+  // if (Math.random() < 0.3) {
     response.status = 502
     return
-  }
+  // }
 
   yield db.saveEntry(entry)
 
