@@ -12,7 +12,7 @@ import stream from 'stream'
 import JSONStream from 'JSONStream'
 import MultiStream from 'multistream'
 import bodyParser from 'koa-body-parser'
-import { where } from 'lodash'
+import { where, pairs } from 'lodash'
 import moment from 'moment'
 import uuid from 'uuid'
 import * as db from './libs/db'
@@ -67,7 +67,7 @@ app.use(route.put('/journal', function * () {
   console.log(`\x1b[33m${JSON.stringify(entry, null, 2)}\x1b[0m`)
 
   // Simulate random failure to test optimistic update handling on client
-  if (Math.random() < 0.3) {
+  if (Math.random() < 0.1) {
     response.status = 502
     return
   }
@@ -81,38 +81,23 @@ app.use(route.put('/journal', function * () {
 
 app.use(route.get('/fillSchedule', function * () {
   this.type = 'json'
-  const [entries] = yield db.journalEntryReaderAsync()
-  const days = where(entries, {type: 'ASSIGN_DAY'})
-    .map((entry) => new Date(JSON.parse(entry.facts)[0][1]))
-    .sort()
-  const lastDay = days[days.length - 1]
 
-  const nextDay = lastDay
-    ? lastDay.setDate(lastDay.getDate() + 1)
-    : new Date()
+  // let lastDay = new Date(yield db.getLastAssignedDay())
+  //
+  // // TODO: Change to while loop instead of precalculate number iterations
+  // const monthFromNow = new Date()
+  // monthFromNow.setDate(monthFromNow.getDate() + 30)
+  // const daysToAdd = Math.floor((monthFromNow - lastDay) / (1000 * 60 * 60 * 24))
+  //
+  // for (let i = 0; i < daysToAdd; i++) {
+  //   yield db.assignNextDay()
+  // }
 
-  const monthFromNow = new Date()
-  monthFromNow.setDate(monthFromNow.getDate() + 30)
+  yield db.assignNextDay()
+  yield db.assignNextDay()
+  yield db.assignNextDay()
 
-  // TODO: Change to while loop instead of precalculate number iterations
-  const daysToAdd = Math.floor((monthFromNow - nextDay) / (1000 * 60 * 60 * 24))
-
-  for (let i = 0; i < daysToAdd; i++) {
-    const laziestUserId = '00020000-0000-4000-a000-00000000000d'
-    const date = moment(nextDay).add(i, 'days').format('L')
-    const entry = {
-      type: 'ASSIGN_DAY',
-      uuid: uuid.v4(),
-      ts: new Date(),
-      facts: [
-        ['assert', date, 'day/user', laziestUserId],
-      ],
-    }
-    console.log(`\x1b[33m${JSON.stringify(entry, null, 2)}\x1b[0m`)
-    yield db.saveEntry(entry)
-  }
-
-  this.body = daysToAdd
+  this.body = yield db.assignNextDay()
 }))
 
 // Serve static assets

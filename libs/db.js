@@ -4,6 +4,9 @@ const dbUrl = 'postgres:///scheduler'
 import stream from 'stream'
 import QueryStream from 'pg-query-stream'
 import query from 'pg-query'
+import moment from 'moment'
+import { where, pairs } from 'lodash'
+import uuid from 'uuid'
 
 query.connectionParameters = process.env.DATABASE_URL || dbUrl
 
@@ -54,7 +57,7 @@ const seed = (callback) => {
 }
 
 export const saveEntry = (newEntry) => {
-  console.log('Writing:', JSON.stringify(newEntry))
+  // console.log('Writing:', JSON.stringify(newEntry))
   const queryObject = journalEntryPgInsert(newEntry)
   // return query(
   //   'if not exists (select uuid from journal_entries where uuid=$2) insert into journal_entries (ts, uuid, type, facts) values ($1, $2, $3, $4) end if',
@@ -79,7 +82,7 @@ export const saveEntry = (newEntry) => {
         client.query('commit', (err, _pgResult) => {
           if (err) return reject(err)
           done()
-          resolve(true)
+          resolve(newEntry)
         })
       })
     })
@@ -111,6 +114,55 @@ export const journalEntryReader = (startTime = new Date(0)) => {
 export const journalEntryReaderAsync = (startTime = new Date(0)) => {
   query.connectionParameters = dbUrl
   return query('select * from journal_entries where ts > $1', [startTime])
+}
+
+export const getLastAssignedDay = () => {
+  return journalEntryReaderAsync().then((entries) => {
+    const days = where(entries[0], {type: 'ASSIGN_DAY'})
+      .map((entry) => {
+        const facts = JSON.parse(entry.facts)[0]
+        return new Date(facts[1])
+      })
+      .sort()
+    return days[days.length - 1]
+  })
+}
+
+export const assignNextDay = () => {
+  return journalEntryReaderAsync().then((entries) => {
+    const userDayCount = {}
+    const days = where(entries[0], {type: 'ASSIGN_DAY'})
+      .map((entry) => {
+        const facts = JSON.parse(entry.facts)[0]
+        const userId = facts[3]
+        userDayCount[userId] = userDayCount[userId]
+          ? userDayCount[userId] + 1
+          : 1
+        return new Date(facts[1])
+      })
+      .sort()
+    const lastDay = days[days.length - 1]
+
+    const nextDay = lastDay
+      ? lastDay.setDate(lastDay.getDate() + 1)
+      : new Date()
+
+    const userCountPairs = pairs(userDayCount)
+    const laziestUserId = userCountPairs.reduce((memo, currentPair) => {
+      return currentPair[1] < memo[1] ? currentPair : memo
+    }, userCountPairs[0])[0]
+    userDayCount[laziestUserId] = userDayCount[laziestUserId] + 1
+    const date = moment(nextDay).add(1, 'days').format('L')
+    const entry = {
+      type: 'ASSIGN_DAY',
+      uuid: uuid.v4(),
+      ts: new Date(),
+      facts: [
+        ['assert', date, 'day/user', laziestUserId],
+      ],
+    }
+    return saveEntry(entry)
+  })
 }
 
 if (!module.parent) {
